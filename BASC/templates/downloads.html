@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Downloads</title>
+    <style>
+        body {font-family: Arial, sans-serif;background: #f8f9fa;margin: 0;padding: 20px;}
+        h2 {text-align: center;margin-bottom: 20px;}
+        table {width: 100%;border-collapse: collapse;background: #fff;box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
+        table th, table td {border: 1px solid #ddd;padding: 10px;text-align: center;}
+        table th {background: #343a40;color: white;}
+        .btn {display: inline-block;padding: 6px 12px;border-radius: 4px;text-decoration: none;cursor: pointer;}
+        .btn-download { background: #007bff; color: white; }
+        .btn-download:hover { background: #0056b3; }
+        .btn-delete { background: #dc3545; color: white; }
+        .btn-delete:hover { background: #c82333; }
+        .btn-upload { background: #28a745; color: white; margin-bottom: 15px; }
+        .btn-upload:hover { background: #218838; }
+        .modal {display: none;position: fixed;z-index: 999;left: 0; top: 0;width: 100%; height: 100%;background: rgba(0,0,0,0.6);}
+        .modal-content {background: #fff;margin: 10% auto;padding: 20px;width: 400px;border-radius: 8px;box-shadow: 0 4px 10px rgba(0,0,0,0.2);position: relative;}
+        .modal-content h3 {margin-top: 0;margin-bottom: 15px;}
+        .modal-content input[type="text"],
+        .modal-content input[type="file"] {width: 100%;padding: 8px;margin: 5px 0 10px;border: 1px solid #ccc;border-radius: 4px;}
+        .modal-content button {background: #28a745;color: white;padding: 8px 16px;border: none;border-radius: 4px;cursor: pointer;}
+        .modal-content button:hover {background: #218838;}
+        .close {position: absolute;top: 10px; right: 15px;font-size: 20px;font-weight: bold;color: #333;cursor: pointer;}
+    </style>
+</head>
+<body>
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Smart School{% endblock %}
+{% block content %}
+<h2>📥 Downloads</h2>
+{% if student.is_teacher or student.is_librarian %}
+    <button class="btn btn-upload" onclick="openModal()">📤 Upload New File</button>
+{% endif %}
+<table>
+    <thead>
+        <tr>
+            <th>👤 Uploaded By</th>
+            <th>📄 File Name</th>
+            <th>⬇️ Download</th>
+            {% if student.is_teacher or student.is_librarian %}
+                <th>❌ Delete</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for f in files %}
+            <tr>
+                <td style="display: flex; align-items: center; gap: 10px;">
+                    {% if f.uploaded_by %}
+                        {% if f.uploaded_by.photo %}
+                            <img src="{{ f.uploaded_by.photo.url }}" alt="Profile" style="width:40px;height:40px;border-radius:50%;">
+                        {% else %}
+                            <img src="{% static 'img_4.png' %}" alt="Profile" style="width:40px;height:40px;border-radius:50%;">
+                        {% endif %}
+                        <span>{{ f.uploaded_by.name }}</span>
+                    {% else %}
+                        <span>Unknown</span>
+                    {% endif %}
+                </td>
+                <td>{{ f.name }}</td>
+                <td>
+                    <a href="{% url 'file' f.pk %}" class="btn btn-download">Download</a>
+                </td>
+                {% if student.is_teacher or student.is_librarian %}
+                    <td>
+                        <a href="{% url 'delete' f.pk %}" class="btn btn-delete">Delete</a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">⚠️ No files available.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div id="uploadModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>📤 Upload File</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="File Name" required>
+            <input type="file" name="file" required>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</div>
+<script>
+    function openModal() {
+        document.getElementById("uploadModal").style.display = "block";
+    }
+    function closeModal() {
+        document.getElementById("uploadModal").style.display = "none";
+    }
+    window.onclick = function(event) {
+        let modal = document.getElementById("uploadModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}
+</body>
+</html>

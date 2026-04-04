@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <style>
+    body { background: #f5f5f5; }
+    .profile-card {background: white;border-radius: 12px;box-shadow: 0 4px 12px rgba(0,0,0,0.1);max-width: 1200px;height: 800px;margin: 5px auto;overflow: hidden;}
+    .profile-header {display: flex;align-items: center;padding: 20px;background: #eee;}
+    .profile-header img {width: 90px;height: 90px;border-radius: 10%;margin-right: 10px;border: 3px solid #ddd;object-fit: cover;}
+    .profile-header h2 {margin: 0;font-size: 22px;}
+    .tabs {display: flex;border-bottom: 2px solid #ddd;}
+    .tabs button {flex: 1;padding: 12px;border: none;background: #f9f9f9;cursor: pointer;font-weight: bold;}
+    .tabs button.active {background: #fff;border-bottom: 2px solid #007BFF;color: #007BFF;}
+    .tab-content {padding: 20px;display: none;}
+    .tab-content.active {display: block;}
+    .info-row {margin: 28px 0;display: flex;}
+    .info-row span {flex: 1;font-weight: bold;color: #555;}
+    #parents p,
+    #others p {margin: 18px 0;}
+  </style>
+</head>
+<body>
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Smart School{% endblock %}
+{% block content %}
+<div class="profile-card">
+    <div class="profile-header">
+      {% if student.photo %}
+        <img src="{{ student.photo.url }}" alt="Profile">
+      {% else %}
+        <img src="{% static 'img_5.png' %}" alt="Default Profile">
+      {% endif %}
+      <div>
+        <h2>{{ student.name }}</h2>
+        <p>Email:- {{ student.email }}<br>
+           DOB:- {{ student.dob }} | Gender:- {{ student.gender }}</p>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-link active" onclick="openTab(event,'personal')">PERSONAL</button>
+      <button class="tab-link" onclick="openTab(event,'parents')">PARENTS</button>
+      <button class="tab-link" onclick="openTab(event,'others')">OTHERS</button>
+    </div>
+    <div id="personal" class="tab-content active">
+      <div class="info-row"><span>Admission Date:</span> {{ student.admission_date }}</div>
+      <div class="info-row"><span>Date Of Birth:</span> {{ student.dob }}</div>
+      <div class="info-row"><span>Category:</span> {{ student.category }}</div>
+      <div class="info-row"><span>Mobile Number:</span> {{ student.mobile_number }}</div>
+      <div class="info-row"><span>Caste:</span> {{ student.caste }}</div>
+      <div class="info-row"><span>Religion:</span> {{ student.religion }}</div>
+      <div class="info-row"><span>Email:</span> {{ student.email }}</div>
+      <div class="info-row"><span>Current Address:</span> {{ student.current_address }}</div>
+      <div class="info-row"><span>Permanent Address:</span> {{ student.permanent_address }}</div>
+      <div class="info-row"><span>Blood Group:</span> {{ student.blood_group }}</div>
+      <div class="info-row"><span>Height:</span> {{ student.height }}</div>
+      <div class="info-row"><span>Weight:</span> {{ student.weight }}</div>
+    </div>
+    <div id="parents" class="tab-content">
+      <p><b>Father's Name:</b> {{ student.father_name }}</p>
+      <p><b>Mother's Name:</b> {{ student.mother_name }}</p>
+      <p><b>Guardian Contact:</b> {{ student.guardian_contact }}</p>
+    </div>
+    <div id="others" class="tab-content">
+      <p><b>Hobbies:</b> {{ student.hobbies }}</p>
+      <p><b>Achievements:</b> {{ student.achievements }}</p>
+    </div>
+  </div>
+  <script>
+    function openTab(evt, tabName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tab-content");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tab-link");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+      }
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.classList.add("active");
+    }
+  </script>
+{% endblock %}
+</body>
+</html>

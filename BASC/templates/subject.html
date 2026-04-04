@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subject</title>
+<style>
+    body {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background-color: #f5f7fa;margin: 0;padding: 0px;color: #333;}
+    h2 {text-align: center;margin-bottom: 20px;color: #2c3e50;}
+    table {width: 100%;margin: 0 auto 40px auto;border-collapse: collapse;box-shadow: 0 2px 8px rgba(0,0,0,0.1);background-color: #fff;border-radius: 2px;overflow: hidden;}
+    th, td {padding: 20px 25px;text-align: center;border-bottom: 1px solid #ddd;}
+    th {background-color: #3498db;color: black;font-weight: 600;text-transform: uppercase;}
+    tr:nth-child(even) {background-color: #f9f9f9;}
+    tr:hover {background-color: #f1f1f1;transform: scale(1.01);transition: 0.3s;}
+    @media screen and (max-width: 768px) {
+        table, thead, tbody, th, td, tr {display: block;}
+        th {position: absolute;top: -9999px;left: -9999px;}
+        tr {margin-bottom: 15px;border: 1px solid #ccc;border-radius: 8px;padding: 10px;}
+        td {border: none;position: relative;padding-left: 50%;text-align: left;}
+        td:before {position: absolute;top: 12px;left: 15px;width: 45%;white-space: nowrap;font-weight: bold;}
+        td:nth-of-type(1):before { content: "Class"; }
+        td:nth-of-type(2):before { content: "Subject Name"; }
+        td:nth-of-type(3):before { content: "Subject Code"; }
+        td:nth-of-type(4):before { content: "Teacher"; }
+        td:nth-of-type(5):before { content: "Type"; }
+    }
+</style>
+</head>
+<body>
+{% extends "base.html" %}
+{% block title %}Smart School{% endblock %}
+{% block content %}
+<h2>Subjects List</h2>
+<table>
+    <thead>
+        <tr>
+            <th>🏫Class</th>
+            <th>📖Subject Name</th>
+            <th>💻Subject Code</th>
+            <th>👨‍🏫Teacher</th>
+            <th>📘/🧪Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subject in subjects %}
+        <tr>
+            <td>🏫{{ subject.class_field }}</td>
+            <td>📖{{ subject.name }}</td>
+            <td>💻{{ subject.code }}</td>
+            <td>👨‍🏫{{ subject.teacher }}</td>
+            <td>📘|🧪{{ subject.subject_type|title }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+</body>
+</html>

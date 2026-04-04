@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event</title>
+  <style>
+    body {font-family: Arial, sans-serif;background: #f8f8f8;margin: 0;}
+    .container {max-width: 1300px;margin: auto;padding: 20px;}
+    .section-title {font-size: 1.8rem;margin: 20px 0;color: #004080;border-bottom: 2px solid #004080;display: inline-block;padding-bottom: 5px;}
+    .event-list {display: grid;grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));gap: 20px;margin-top: 20px;}
+    .event-card {background: #fff;border: 1px solid #ddd;border-radius: 10px;padding: 15px;box-shadow: 0 4px 10px rgba(0,0,0,0.1);transition: 0.3s;}
+    .event-card:hover {transform: translateY(-5px);}
+    .event-card img {width: 100%;height: 180px;object-fit: cover;border-radius: 8px;margin-bottom: 12px;}
+    .event-card h3 {margin: 10px 0;color: #222;font-size: 1.3rem;}
+    .event-meta {font-size: 0.9rem;color: #666;margin: 5px 0;}
+    .event-desc {font-size: 1rem;color: #333;text-align: justify;}
+    .past {opacity: 0.9;}
+</style>
+</head>
+<body>
+{% extends 'header.html' %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<h1 align="center" style="margin:40px 0; font-family: Georgia, serif; color:#222;">Events</h1>
+<div class="container">
+  <section>
+    <h3 class="section-title">Upcoming Events</h3>
+    {% if upcoming_events %}
+      <div class="event-list">
+        {% for event in upcoming_events %}
+          <div class="event-card">
+            {% if event.image %}
+              <img src="{{ event.image.url }}" alt="{{ event.title }}">
+            {% endif %}
+            <h3>{{ event.title }}</h3>
+            <p class="event-meta"><strong>Date:</strong> {{ event.date }} {% if event.time %} at {{ event.time }}{% endif %}</p>
+            <p class="event-meta"><strong>Location:</strong> {{ event.location }}</p>
+            <p class="event-desc">{{ event.description|truncatechars:150 }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No upcoming events available.</p>
+    {% endif %}
+  </section>
+  <hr>
+  <section>
+    <h3 class="section-title">Past Events</h3>
+    {% if past_events %}
+      <div class="event-list">
+        {% for event in past_events %}
+          <div class="event-card past">
+            {% if event.image %}
+              <img src="{{ event.image.url }}" alt="{{ event.title }}">
+            {% endif %}
+            <h3>{{ event.title }}</h3>
+            <p class="event-meta"><strong>Date:</strong> {{ event.date }}</p>
+            <p class="event-meta"><strong>Location:</strong> {{ event.location }}</p>
+            <p class="event-desc">{{ event.description|truncatechars:120 }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No past events available.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Management</title>
+    <style>
+    body {font-family: Arial, sans-serif;margin: 0;padding: 0;background: #f4f6f9;}
+    section {max-width: 1300px;margin: 40px auto;padding: 30px;background: #fff;border-radius: 0px;box-shadow: 0px 4px 10px rgba(0,0,0,0.1);}
+    section h2 {color: #2c3e50;margin-bottom: 15px;text-align: left;}
+    .about p {color: #555;text-align: justify;}
+    .feature-grid {display: flex;flex-wrap: wrap;gap: 20px;justify-content: center;margin-top: 20px;}
+    .feature-item {flex: 1;min-width: 220px;background: #ecf0f1;padding: 20px;border-radius: 0px;text-align: center;}
+    .feature-item h3 {margin-bottom: 10px;color: #34495e;}
+    .notice ul {list-style: none;padding: 0;}
+    .notice ul li {padding: 10px;border-bottom: 1px solid #ddd;color: #333;}
+    .principal {display: flex;flex-wrap: wrap;gap: 20px;align-items: center;}
+    .principal img {max-width: 200px;border-radius: 50%;border: 4px solid #3498db;}
+    .principal-text {flex: 1;}
+    .principal-text p {text-align: justify;color: #444;}
+    .gallery-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));gap: 15px;}
+    .gallery-grid img {width: 100%;border-radius: 0px;}
+    .achievements ul {list-style: "🏆 ";padding-left: 20px;}
+    .achievements li {margin-bottom: 10px;color: #333;}
+    .contact-info {display: flex;flex-wrap: wrap;gap: 20px;justify-content: center;text-align: center;}
+    .contact-item {flex: 1;min-width: 200px;background: #ecf0f1;padding: 15px;border-radius: 10px;}
+  </style>
+</head>
+<body>
+{% extends 'header.html' %}
+{% load static %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<h1 align="center" style="margin-top: 50px;">School Management</h1>
+  <section class="about">
+    <h2>Our School</h2>
+    <p>
+      Blogrator Academy is a modern smart school dedicated to providing quality
+      education with innovative teaching methods, digital classrooms, and
+      experienced faculty. Our mission is to prepare students for the future
+      with knowledge, skills, and strong values.
+    </p>
+  </section>
+  <section class="features">
+    <h2>Our Facilities</h2>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <h3>🎓 Experienced Teachers</h3>
+        <p>Highly qualified faculty guiding students with care and expertise.</p>
+      </div>
+      <div class="feature-item">
+        <h3>💻 Smart Classrooms</h3>
+        <p>Interactive digital learning with modern technology support.</p>
+      </div>
+      <div class="feature-item">
+        <h3>📚 Library & Lab</h3>
+        <p>Well-equipped library and laboratories for research & experiments.</p>
+      </div>
+      <div class="feature-item">
+        <h3>⚽ Sports & Activities</h3>
+        <p>Encouraging students to excel in both academics and extracurriculars.</p>
+      </div>
+    </div>
+  </section>
+  <section class="notice">
+    <h2>Latest Notices</h2>
+    <ul>
+      <li>📢 Admission for 2025 session is now open.</li>
+      <li>📢 Annual Sports Day will be held on 10th October.</li>
+      <li>📢 Parent-Teacher Meeting scheduled on 25th September.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Message from the Principal</h2>
+    <div class="principal">
+      <img src="{% static 'img_53.png' %}" alt="Principal Photo">
+      <div class="principal-text">
+        <p>
+          Welcome to Blogrator Academy. Our vision is to create a nurturing
+          environment where students are encouraged to dream, learn, and grow.
+          With the dedication of our teachers and support of parents, we aim to
+          shape responsible citizens ready to face the challenges of tomorrow.
+        </p>
+        <p><b>- Principal, Blogrator Academy</b></p>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h2>Photo Gallery</h2>
+    <div class="gallery-grid">
+      <img src="{% static 'img_1.png' %}" alt="Gallery 1">
+      <img src="{% static 'img_2.png' %}" alt="Gallery 2">
+      <img src="{% static 'img_8.png' %}" alt="Gallery 3">
+      <img src="{% static 'img_15.png' %}" alt="Gallery 4">
+    </div>
+  </section>
+  <section class="achievements">
+    <h2>Our Achievements</h2>
+    <ul>
+      <li>National level Science Olympiad Winners - 2024</li>
+      <li>State-level Football Champions - 2023</li>
+      <li>100% Pass Rate in Board Exams - 2022</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Contact Us</h2>
+    <div class="contact-info">
+      <div class="contact-item">
+        <h3>📍 Address</h3>
+        <p>Blogrator Academy, Simlapal, Bankura, WB</p>
+      </div>
+      <div class="contact-item">
+        <h3>📞 Phone</h3>
+        <p>+91 98765 43210</p>
+      </div>
+      <div class="contact-item">
+        <h3>📧 Email</h3>
+        <p>info@blogratoracademy.com</p>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+</body>
+</html>

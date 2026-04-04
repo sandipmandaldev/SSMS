@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Blogrator Academy{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  {% load static %}
+  <style>
+    * {margin: 0;padding: 0;box-sizing: border-box;font-family: Arial, sans-serif;}
+    .top-bar {background: #1a2a43;color: white;display: flex;align-items: center;justify-content: space-between;padding: 5px 60px;font-size: 14px;}
+    .top-bar .email {display: flex;align-items: center;gap: 10px;}
+    .top-bar .social-icons i {margin-left: 5px;cursor: pointer;}
+    .news-ticker {background: #4169E1;color: white;overflow: hidden;white-space: nowrap;height: 35px;display: flex;align-items: center;}
+    .news-ticker span {display: inline-block;padding-left: 100%;animation: scroll-left 25s linear infinite;font-weight: bold;}
+    @keyframes scroll-left {
+      from { transform: translateX(0); }
+      to { transform: translateX(-100%); }
+    }
+    .header-main {display: flex;align-items: center;justify-content: space-between;padding: 10px 20px;background: #fff;border-bottom: 1px solid #eee;}
+    .header-logo {display: flex;align-items: center;gap: 12px;}
+    .header-logo img {width: 150px;height: 50px;}
+    .header-logo h2 {font-size: 22px;font-weight: bold;color: #4169E1;text-shadow: 1px 1px 2px #c48236;}
+    .header-right {display: flex;align-items: center;gap: 20px;}
+    .call-us {display: flex;align-items: center;gap: 8px;color: #4169E1;font-weight: bold;}
+    .login-btn {background: #4169E1;color: white;padding: 10px 25px;border-radius: 25px;border: none;font-weight: bold;cursor: pointer;box-shadow: 0px 0px 10px rgba(200, 16, 79, 0.3);transition: 0.3s;}
+    .login-btn a {color: #fff;text-decoration: none;}
+    .login-btn:hover {background: #00008B;}
+    .navbar {display: flex;justify-content: center;gap: 20px;padding: 12px 0;background: #fff;border-bottom: 1px solid #ddd;}
+    .navbar a {text-decoration: none;font-size: 14px;color: #000;padding: 8px 10px;transition: 0.3s;}
+    .navbar a.active,
+    .navbar a:hover {color: #4169E1;border-bottom: 2px solid #4169E1;}
+    .menu-toggle {display: none;font-size: 22px;cursor: pointer;color: #4169E1;}
+    @media (max-width: 768px) {
+      .navbar {display: none;flex-direction: column;position: absolute;top: 130px;right: 0px;background: #fff;border: 1px solid #ddd;padding: 10px;z-index: 1000;width: 100%;}
+      .navbar.show { display: flex; }
+      .menu-toggle { display: block; }
+    }
+    footer {background: rgba(0,0,0,0.85);color: #fff;padding: 50px 100px 20px;position: relative;}
+    footer .row {display: flex;justify-content: space-between;flex-wrap: wrap;}
+    footer h3 {margin-bottom: 15px;font-size: 20px;font-weight: bold;border-bottom: 2px solid #fff;display: inline-block;padding-bottom: 5px;}
+    footer ul { list-style: none; }
+    footer ul li { margin: 8px 0; }
+    footer ul li a {color: #ccc;text-decoration: none;transition: 0.3s;}
+    footer ul li a:hover { color: #fff; }
+    footer .social a {display: inline-block;margin-right: 10px;color: #fff;border: 1px solid #fff;padding: 8px;width: 35px;height: 35px;text-align: center;line-height: 18px;transition: 0.3s;}
+    footer .social a:hover {background: #4169E1;border-color: #b30047;}
+    footer .bottom {display: flex;justify-content: space-around;margin-top: 30px;padding-top: 20px;border-top: 1px solid rgba(255,255,255,0.3);}
+    footer .bottom div {display: flex;align-items: center;gap: 10px;}
+    footer .bottom i { font-size: 22px; }
+    footer .rig {text-align: center;background: #b30047;padding: 18px;margin-top: 20px;margin-bottom: 0px;}
+    .rig {width: 100%;background: #1a2a43;color: white;text-align: center;padding: 24px 0;font-size: 14px;}
+    .float-btn {position: fixed;bottom: 80px;right: 20px;background: #4169E1;color: #fff;border-radius: 50%;width: 50px;height: 50px;display: flex;align-items: center;justify-content: center;font-size: 22px;cursor: pointer;box-shadow: 0 4px 6px rgba(0,0,0,0.3);z-index: 999;}
+    .float-btn.whatsapp {bottom: 20px;background: #25D366;}
+    @media(max-width: 768px) {
+      footer { padding: 30px; }
+      footer .row { flex-direction: column; gap: 30px; }
+      footer .bottom { flex-direction: column; gap: 15px; }
+    }
+    footer {position: relative;color: #fff;padding: 50px 100px 20px;overflow: hidden;}
+    footer .footer-bg {position: absolute;top: 0;left: 0;width: 100%;height: 100%;object-fit: cover;z-index: 0;filter: brightness(40%) blur(5px);}
+    footer .row,
+    footer .bottom {position: relative;z-index: 1;}
+    .dropdown {position: relative;display: inline-block;}
+    .dropbtn {background: none;border: none;font-size: 14px;cursor: pointer;color: #000;padding: 8px 10px;}
+    .dropbtn:hover {color: #4169E1;border-bottom: 2px solid #4169E1;}
+    .dropdown-content {display: none;position: absolute;background: #fff;min-width: 220px;box-shadow: 0px 4px 12px rgba(0,0,0,0.1);z-index: 1000;border-radius: 0px;top: 46px;}
+    .dropdown-content a {padding: 10px 15px;font-size: 14px;color: #333;border-bottom: 1px solid #f0f0f0;display: block;}
+    .dropdown-content a:hover {background: #4169E1;color: #fff;}
+    .show {display: block;}
+    @media (max-width: 768px) {
+      .dropdown-content {position: static;box-shadow: none;border: none;width: 100%;}
+      .dropdown-content a {border-bottom: 1px solid #f0f0f0;padding-left: 25px;}
+    }
+    @media (max-width: 768px) {
+      .header-logo h2 {display: none;}
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="left">
+      <span class="email"><i class="fa fa-envelope"></i> blogratoracademy@gmail.com</span>
+    </div>
+    <div class="social-icons">
+      Follow Us:
+      <i class="fab fa-whatsapp"></i>
+      <i class="fab fa-facebook-f"></i>
+      <i class="fab fa-twitter"></i>
+      <i class="fab fa-google-plus-g"></i>
+      <i class="fab fa-youtube"></i>
+      <i class="fab fa-linkedin-in"></i>
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-pinterest"></i>
+    </div>
+  </div>
+  <div class="news-ticker">
+  <span>
+    {% for news in latest_news %}
+      📢 <a href="{% url 'news' %}" style="color:white; text-decoration:none;">
+            {{ news.title }}
+          </a>
+      {% if not forloop.last %} . . . . . . . . . . . . . . . . . . . . . {% endif %}
+    {% endfor %}
+  </span>
+  </div>
+  <div class="header-main">
+    <div class="header-logo">
+      <img src="{% static 'Blogrator[1].png' %}" alt="School Logo">
+      <h2></h2>
+    </div>
+    <div class="header-right">
+      <div class="call-us"><i class="fa fa-phone"></i> 89562423934</div>
+      <button class="login-btn"><a href="{% url 'login' %}">Login</a></button>
+      <div class="menu-toggle" onclick="toggleMenu()"><i class="fa fa-bars"></i></div>
+    </div>
+  </div>
+  <div class="navbar" id="navbar">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'online_course' %}">Online Course</a>
+    <a href="{% url 'register' %}">Online Admission</a>
+    <a href="https://results.cbse.nic.in/#whats-new">CBSE Exam Result</a>
+    <a href="{% url 'search_result' %}">Exam Result</a>
+    <a href="{% url 'annual_calendar' %}">Annual Calendar</a>
+    <a href="{% url 'about_us' %}">About Us</a>
+    <div class="dropdown">
+      <button class="dropbtn">Academics <i class="fa fa-caret-down"></i></button>
+      <div class="dropdown-content">
+        <a href="{% url 'facilities' %}">Facilities</a>
+        <a href="{% url 'annual_sports' %}">Annual Sports Day</a>
+        <a href="{% url 'course' %}">Course</a>
+        <a href="{% url 'school_uniform' %}">School Uniform</a>
+        <a href="{% url 'principal_message' %}">Principal Message</a>
+        <a href="{% url 'school_management' %}">School Management</a>
+        <a href="{% url 'know_us' %}">Know Us</a>
+        <a href="{% url 'approach' %}">Approach</a>
+        <a href="{% url 'pre_primary' %}">Pre Primary</a>
+        <a href="{% url 'h_teacher' %}">Teacher</a>
+        <a href="{% url 'houses' %}">Houses & Mentoring</a>
+        <a href="{% url 'student_council' %}">Student Council</a>
+        <a href="{% url 'career_counselling' %}">Career Counselling</a>
+      </div>
+    </div>
+    <a href="{% url 'gallery' %}">Gallery</a>
+    <a href="{% url 'events' %}">Events</a>
+    <a href="{% url 'news' %}">News</a>
+    <a href="{% url 'contact' %}">Contact</a>
+  </div>
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+  <footer>
+    <img src="{% static 'img.png' %}" alt="footer background" class="footer-bg">
+    <div class="row">
+      <div>
+        <h3>Links</h3>
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'online_course' %}">Course</a></li>
+          <li><a href="{% url 'events' %}">Events</a></li>
+          <li><a href="{% url 'contact' %}">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Follow Us</h3>
+        <div class="social">
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-google-plus-g"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-pinterest"></i></a>
+        </div>
+      </div>
+      <div>
+        <h3>Feedback</h3>
+        <p><i class="fa-solid fa-pen-to-square"></i> Complain</p>
+      </div>
+    </div>
+    <div class="bottom">
+      <div><i class="fa-solid fa-phone"></i> <span><strong>Contact</strong><br>89562423934</span></div>
+      <div><i class="fa-solid fa-envelope"></i> <span><strong>Email Us</strong><br>blogratoracademy@gmail.com</span></div>
+      <div><i class="fa-solid fa-location-dot"></i> <span><strong>Address</strong><br>25 Kings Street, CA</span></div>
+    </div>
+  </footer>
+      <div class="rig">© Blogrator Academy 2025 All rights reserved</div>
+  <div class="float-btn" onclick="window.scrollTo({top:0,behavior:'smooth'});"><i class="fa-solid fa-angle-up"></i></div>
+  <div class="float-btn whatsapp"><i class="fa-brands fa-whatsapp"></i></div>
+  <script>
+    function toggleMenu() {
+      document.getElementById("navbar").classList.toggle("show");
+    }
+    document.querySelector(".dropbtn").addEventListener("click", function (event) {
+      event.stopPropagation(); // prevent closing immediately
+      document.querySelector(".dropdown-content").classList.toggle("show");
+    });
+    window.addEventListener("click", function (event) {
+      if (!event.target.matches(".dropbtn") && !event.target.closest(".dropdown")) {
+        document.querySelector(".dropdown-content").classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>

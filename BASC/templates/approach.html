@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Approach</title>
+  <style>
+  body {font-family: Arial, sans-serif;background-color: #f5f7fa;color: #333;}
+  .container {max-width: 1300px;margin: 0 auto;padding: 40px 20px;}
+  .page-header {text-align: center;margin-bottom: 50px;}
+  .page-header h1 {margin-bottom: 15px;}
+  .page-header p {font-size: 18px;color: #555;}
+  .approach-steps {display: flex;flex-wrap: wrap;justify-content: space-between;gap: 30px;}
+  .step-card {background-color: #fff;border-radius: 12px;padding: 30px 20px;text-align: center;flex: 1;min-width: 280px;box-shadow: 0 4px 10px rgba(0,0,0,0.1);transition: transform 0.3s, box-shadow 0.3s;}
+  .step-card:hover {transform: translateY(-10px);box-shadow: 0 10px 20px rgba(0,0,0,0.15);}
+  .step-card .icon {font-size: 50px;margin-bottom: 20px;}
+  .step-card h2 {font-size: 24px;color: #2980b9;margin-bottom: 15px;}
+  .step-card p {font-size: 16px;color: #666;}
+  .cta {text-align: center;margin-top: 60px;}
+  .cta p {font-size: 18px;margin-bottom: 20px;}
+  .cta a {display: inline-block;background-color: #2980b9;color: #fff;text-decoration: none;padding: 14px 30px;border-radius: 50px;font-size: 16px;transition: background-color 0.3s, transform 0.3s;}
+  .cta a:hover {background-color: #1f6391;transform: scale(1.05);}
+  @media (max-width: 900px) {
+    .approach-steps {flex-direction: column;align-items: center;}
+  }
+</style>
+</head>
+<body>
+{% extends 'header.html' %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h1>Approach</h1>
+    <p>At Blogrator Academy, we follow a step-by-step approach to help students achieve excellence in technology and web development.</p>
+  </div>
+  <div class="approach-steps">
+    <div class="step-card">
+      <div class="icon">📘</div>
+      <h2>Learn Basics</h2>
+      <p>Structured lessons to understand core concepts effectively.</p>
+    </div>
+    <div class="step-card">
+      <div class="icon">💻</div>
+      <h2>Hands-on Practice</h2>
+      <p>Apply knowledge through real exercises and projects.</p>
+    </div>
+    <div class="step-card">
+      <div class="icon">🧩</div>
+      <h2>Problem Solving</h2>
+      <p>Develop logical thinking and coding skills with challenges.</p>
+    </div>
+    <div class="step-card">
+      <div class="icon">🚀</div>
+      <h2>Advanced Projects</h2>
+      <p>Work on real-world projects to gain practical experience.</p>
+    </div>
+    <div class="step-card">
+      <div class="icon">🤝</div>
+      <h2>Collaboration</h2>
+      <p>Teamwork and peer learning to enhance knowledge sharing.</p>
+    </div>
+    <div class="step-card">
+      <div class="icon">🏆</div>
+      <h2>Achievement</h2>
+      <p>Prepare for exams, internships, and career growth successfully.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+</body>
+</html>

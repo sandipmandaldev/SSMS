@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery</title>
+  <style>
+    .gallery-page {margin-top: 50px;margin-bottom: 50px;margin: 50px auto;padding: 0 20px;max-width: 1300px;}
+    .gallery-grid {display: grid;grid-template-columns: repeat(4, 1fr);gap: 15px;}
+    .gallery-item {cursor: pointer;overflow: hidden;border-radius: 0px;transition: transform 0.3s, box-shadow 0.3s;border: 1px solid #ddd;}
+    .gallery-item:hover {transform: scale(1.03);box-shadow: 0 6px 15px rgba(0,0,0,0.2);}
+    .gallery-item img,
+    .gallery-item video {width: 100%;height: 250px;object-fit: cover;display: block;}
+    .media-info {padding: 8px;background: #f8f9fa;}
+    .media-info h5 {margin: 5px 0;font-size: 16px;font-weight: 600;}
+    .media-info p {margin: 0;font-size: 13px;color: #555;}
+    .popup-overlay {position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.7);display: none;justify-content: center;align-items: center;z-index: 1000;}
+    .popup-content {background: #fff;padding: 20px;max-width: 800px;width: 90%;border-radius: 2px;text-align: center;position: relative;}
+    .popup-close {position: absolute;top: 10px;right: 15px;font-size: 25px;cursor: pointer;color: #333;}
+    .popup-content img,
+    .popup-content video {max-width: 100%;max-height: 70vh;border-radius: 10px;margin-bottom: 10px;}
+    #popup-title {font-weight: bold;margin-bottom: 10px;}
+    #popup-desc {color: #555;}
+    @media (max-width: 992px) {
+      .gallery-grid {grid-template-columns: repeat(2, 1fr);}
+    }
+    @media (max-width: 576px) {
+      .gallery-grid {grid-template-columns: 1fr;}
+    }
+</style>
+</head>
+<body>
+{% extends 'header.html' %}
+{% block title %}Gallery | Blogrator Academy{% endblock %}
+{% block content %}
+<div class="gallery-page container">
+  <h1 align="center" class="text-center mb-4" style="margin-bottom: 25px;">Gallery</h1>
+  <div class="gallery-grid">
+    {% for item in galleries %}
+    <div class="gallery-item" onclick="openPopup('{{ item.file.url }}', '{{ item.title }}', '{{ item.description }}', {{ item.is_video|yesno:'true,false' }})">
+      {% if item.is_image %}
+      <img src="{{ item.file.url }}" alt="{{ item.title }}">
+      {% elif item.is_video %}
+      <video muted>
+        <source src="{{ item.file.url }}" type="video/mp4">
+      </video>
+      {% endif %}
+      <div class="media-info">
+        <h5>{{ item.title }}</h5>
+        <p>{{ item.description|truncatewords:15 }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div id="popup" class="popup-overlay" onclick="closePopup(event)">
+  <div class="popup-content">
+    <span class="popup-close" onclick="closePopup(event)">×</span>
+    <h3 id="popup-title"></h3>
+    <div id="popup-media-container"></div>
+    <p id="popup-desc"></p>
+  </div>
+</div>
+<script>
+function openPopup(src, title, desc, isVideo) {
+  document.getElementById('popup-title').innerText = title;
+  document.getElementById('popup-desc').innerText = desc;
+  const container = document.getElementById('popup-media-container');
+  container.innerHTML = '';
+  if (isVideo === true || isVideo === 'true') {
+    const video = document.createElement('video');
+    video.src = src;
+    video.controls = true;
+    video.autoplay = true;
+    video.style.maxWidth = '100%';
+    container.appendChild(video);
+  } else {
+    const img = document.createElement('img');
+    img.src = src;
+    container.appendChild(img);
+  }
+  document.getElementById('popup').style.display = 'flex';
+}
+function closePopup(event) {
+  if (event.target.classList.contains('popup-overlay') || event.target.classList.contains('popup-close')) {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('popup-media-container').innerHTML = '';
+  }
+}
+</script>
+{% endblock %}
+</body>
+</html>
