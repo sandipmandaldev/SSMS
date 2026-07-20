@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .notice-section {padding: 20px 0;background-color: white;}
+        .notice-board {max-width: 1200px;margin: 0 auto;background-color: lightblue;border-radius: 10px;box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);padding: 20px;}
+        .notice-header {display: flex;justify-content: space-between;align-items: center;margin-bottom: 25px;padding-bottom: 15px;border-bottom: 1px solid #e2e8f0;}
+        .notice-header h2 {color: var(--dark-color);font-size: 1.8rem;}
+        .notice-content {max-height: 400px;overflow-y: auto;padding-right: 10px;}
+        .notice-item {padding: 20px;margin-bottom: 20px;background-color: #f8fafc;border-left: 4px solid var(--primary-color);border-radius: 6px;transition: all 0.3s;}
+        .notice-item:hover {background-color: #f1f5f9;transform: translateX(5px);}
+        .notice-date {font-size: 0.9rem;color: var(--text-light);margin-bottom: 8px;display: block;}
+        .notice-text {color: var(--text-color);}
+    </style>
+</head>
+<body>
+{% extends "base.html" %}
+{% block title %}Smart School{% endblock %}
+{% block content %}
+<h2 align="center" style="margin-bottom:30px;">Notice Board</h2>
+<section class="notice-section">
+    <div class="container">
+        <div class="notice-board">
+            <div class="notice-header">
+                <h4>Latest Announcements</h4>
+                <span class="notice-date">Today: {% now "F j, Y" %}</span>
+            </div>
+            <div class="notice-content">
+                {% if notices %}
+                    {% for notice in notices %}
+                        <div class="notice-item">
+                            <span class="notice-date">{{ notice.date }}</span>
+                            {% if notice.file %}
+                                <p class="notice-text">
+                                    <a href="{{ notice.file.url }}" target="_blank" style="text-decoration:none; color:#0b3d91; font-weight:bold;">
+                                        {{ notice.notice_subject }}
+                                    </a>
+                                </p>
+                            {% else %}
+                                <p class="notice-text">{{ notice.notice_subject }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="color:#555;">No notices available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+</body>
+</html>

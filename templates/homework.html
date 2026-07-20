@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart School - Homework</title>
+<style>
+        body {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background-color: #f4f6f8;margin: 0;padding: 2px;color: #333;}
+        h2, h4 {text-align: center;color: #2c3e50;}
+        h2 {margin-top: 0px;margin-bottom: 15px;}
+        form {background-color: #fff;padding: 20px;margin: 15px auto;border-radius: 2px;box-shadow: 0 2px 6px rgba(0,0,0,0.1);max-width: 1200px;}
+        form input[type="text"],
+        form input[type="datetime-local"],
+        form textarea,
+        form input[type="file"] {width: 100%;padding: 10px;margin: 8px 0;border: 1px solid #ccc;border-radius: 6px;box-sizing: border-box;}
+        form button {background-color: #3498db;color: white;padding: 10px 20px;border: none;border-radius: 6px;cursor: pointer;font-size: 16px;}
+        form button:hover {background-color: #2980b9;}
+        .homework-card {background-color: #fff;border: 1px solid #ddd;border-radius: 2px;margin: 15px 0;padding: 15px;box-shadow: 0 2px 4px rgba(0,0,0,0.05);}
+        .homework-card b {font-size: 18px;}
+        .homework-card a {color: #3498db;text-decoration: none;}
+        .homework-card a:hover {text-decoration: underline;}
+        .submissions {margin-top: 10px;padding-left: 15px;}
+        .submissions li {margin-bottom: 5px;}
+        hr {margin: 10px 0;border: 0;border-top: 1px solid #ccc;}
+        .tick {display: inline-block;width: 20px;height: 20px;font-weight: bold;}
+        .tick.green::after {content: "✔";color: green;}
+        .tick.red::after {content: "✖";color: red;}
+        .homework-summary {display: flex;justify-content: space-around;max-width: 1300px;margin: 15px auto;gap: 5px;}
+        .summary-card {background-color: #fff;padding: 15px 20px;border-radius: 2px;box-shadow: 0 2px 6px rgba(0,0,0,0.1);text-align: center;flex: 1;}
+        .summary-card b {display: block;font-size: 18px;margin-bottom: 8px;}
+        .summary-card p {font-size: 22px;color: #3498db;margin: 0;}
+</style>
+</head>
+<body>
+{% extends "base.html" %}
+{% block title %}Smart School{% endblock %}
+{% block content %}
+{% if student.is_teacher %}
+<h2>Upload Homework</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="Homework Title" required>
+    <input type="text" name="subject" placeholder="Subject" required>
+    <textarea name="description" placeholder="Description"></textarea>
+    <input type="datetime-local" name="deadline" required>
+    <input type="file" name="file">
+    <button type="submit">Upload</button>
+</form>
+{% endif %}
+<h2>Available Homework</h2>
+{% if not student.is_teacher %}
+<div class="homework-summary">
+    <div class="summary-card">
+        <b>Total Homework</b>
+        <p id="total-homework">0</p>
+    </div>
+    <div class="summary-card">
+        <b>Pending</b>
+        <p id="pending-homework">0</p>
+    </div>
+    <div class="summary-card">
+        <b>Completed</b>
+        <p id="completed-homework">0</p>
+    </div>
+</div>
+{% endif %}
+{% for item in homework_data %}
+    {% with hw=item.homework %}
+    <div class="homework-card">
+        <b>{{ hw.title }}</b> ({{ hw.subject }})
+        {% if not student.is_teacher %}
+            {% if item.is_submitted %}
+                <span class="tick green"></span>
+            {% else %}
+                <span class="tick red"></span>
+            {% endif %}
+        {% endif %}
+        <br>
+        Teacher Name: {{ hw.teacher.name }}<br>
+        Deadline: {{ hw.deadline }} <br>
+        {{ hw.description }} <br>
+        {% if hw.file %}
+            <a href="{{ hw.file.url }}" download>Download File</a><br>
+        {% endif %}
+        {% if not student.is_teacher %}
+        <form method="POST" enctype="multipart/form-data" class="submit-homework-form">
+            {% csrf_token %}
+            <input type="hidden" name="homework_id" value="{{ hw.id }}">
+            <textarea name="answer_text" placeholder="Write your answer here"></textarea>
+            <input type="file" name="answer_file">
+            <button type="submit" disabled>Submit</button>
+        </form>
+        {% else %}
+        <h4>Submissions:</h4>
+        {% if item.submissions %}
+            <ul class="submissions">
+            {% for sub in item.submissions %}
+                <li>
+                    {{ sub.student.name }} -
+                    {% if sub.answer_text %} {{ sub.answer_text|linebreaks }} {% endif %}
+                    {% if sub.answer_file %} <a href="{{ sub.answer_file.url }}" download>File</a> {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No submission yet.</p>
+        {% endif %}
+        {% endif %}
+    </div>
+    {% endwith %}
+{% endfor %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".submit-homework-form").forEach(form => {
+        const button = form.querySelector("button");
+        const inputs = form.querySelectorAll("textarea, input[type='file']");
+        function checkInputs() {
+            let filled = false;
+            inputs.forEach(input => {
+                if (input.type === "file" && input.files.length > 0) {
+                    filled = true;
+                } else if (input.tagName.toLowerCase() === "textarea" && input.value.trim() !== "") {
+                    filled = true;
+                }
+            });
+            button.disabled = !filled;
+        }
+        inputs.forEach(input => input.addEventListener("input", checkInputs));
+        inputs.forEach(input => input.addEventListener("change", checkInputs));
+        checkInputs(); // page load check
+    });
+});
+    document.addEventListener("DOMContentLoaded", function() {
+    const homeworkCards = document.querySelectorAll(".homework-card");
+    let total = homeworkCards.length;
+    let completed = 0;
+    homeworkCards.forEach(card => {
+        if(card.querySelector(".tick.green")) {
+            completed += 1;
+        }
+    });
+    let pending = total - completed;
+    document.getElementById("total-homework").textContent = total;
+    document.getElementById("completed-homework").textContent = completed;
+    document.getElementById("pending-homework").textContent = pending;
+});
+</script>
+{% endblock %}
+</body>
+</html>

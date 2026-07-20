@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class Time</title>
+<style>
+    body {font-family: "Segoe UI", Tahoma, sans-serif;background: #f9fafb;margin: 0;padding: 0px;}
+    h2 {text-align: center;color: #333;margin-bottom: 20px;}
+    .table-container {width: 100%;overflow-x: auto;}
+    table {width: 100%;min-width: 600px;border-collapse: collapse;background: #fff;border-radius: 2px;overflow: hidden;box-shadow: 0 4px 12px rgba(0,0,0,0.1);}
+    th, td {padding: 20px 10px; text-align: center;font-size: 14px;}
+    th {background: lightblue;color: black;font-weight: 1200;letter-spacing: 0.5px;white-space: nowrap;}
+    tr:nth-child(even) {background: #f3f4f6;}
+    tr:hover {background: #e0e7ff;transition: 0.3s;}
+    td {color: #444;white-space: nowrap;}
+    @media (max-width: 500px) {
+        body {padding: 10px;}
+        .table-container {margin: 0; width: 100%;}
+        table {min-width: 100%;font-size: 12px;}
+        th, td {padding: 10px;font-size: 12px;}
+        h2 {font-size: 18px;}
+}
+</style>
+</head>
+<body>
+{% extends "base.html" %}
+{% block title %}Smart School{% endblock %}
+{% block content %}
+    <h2>Class Time Table</h2>
+<p style="text-align:center; font-size:14px; color:#555;">
+    Date: {% now "d-m-y" %} | Day: {% now "l" %} | Time: {% now "H:i:s" %}</p>
+    <table>
+        <tr>
+            <th>Class</th>
+            <th>Day</th>
+            <th>Subject</th>
+            <th>Time</th>
+            <th>Teacher</th>
+            <th>Room No.</th>
+        </tr>
+        {% for row in time %}
+        <tr>
+            <td>{{ row.class_name }}</td>
+            <td>{{ row.day }}</td>
+            <td>{{ row.subject }}</td>
+            <td>{{ row.start_time }} - {{ row.end_time }}</td>
+            <td>{{ row.teacher_name }}</td>
+            <td>{{ row.room_number }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+</body>
+</html>

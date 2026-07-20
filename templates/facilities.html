@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facilities</title>
+    <style>
+  body {font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;background: #f8fafc;margin: 0;padding: 0;}
+  .facility-section {max-width: 1300px;margin: auto;padding: 50px 20px;}
+  .facility-section h1 {text-align: center;margin-bottom: 40px;color: #222;position: relative;}
+  .facility-row {display: flex;align-items: center;margin-bottom: 60px;gap: 30px;}
+  .facility-row:nth-child(even) {flex-direction: row-reverse;}
+  .facility-img {flex: 1;}
+  .facility-img img {width: 100%;height: 280px;object-fit: cover;border-radius: 12px;box-shadow: 0 6px 18px rgba(0,0,0,0.12);}
+  .facility-text {flex: 1.2;background: #fff;padding: 25px;border-radius: 12px;box-shadow: 0 4px 15px rgba(0,0,0,0.08);transition: 0.3s;}
+  .facility-text:hover {transform: translateY(-6px);}
+  .facility-text h2 {color: #007bff;margin-bottom: 12px;}
+  .facility-text p {color: #444;font-size: 0.95rem;line-height: 1.6;margin-bottom: 12px;}
+  .facility-text ul {margin: 10px 0;padding-left: 18px;color: #333;}
+  .facility-text ul li {margin-bottom: 6px;}
+  .faculty-section {padding: 50px 20px;background: #ecf0f1;}
+  .faculty-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));gap: 25px;margin-top: 30px;max-width: 1300px;margin-left: auto;margin-right: auto;}
+  .faculty-card {background: #fff;border-radius: 12px;box-shadow: 0px 4px 10px rgba(0,0,0,0.1);text-align: center;padding: 20px;transition: transform 0.3s;}
+  .faculty-card:hover {transform: translateY(-8px);}
+  .faculty-card img {width: 100px;height: 100px;border-radius: 50%;object-fit: cover;margin-bottom: 15px;border: 3px solid #e67e22;}
+  .faculty-card h3 {margin: 10px 0 5px;color: #2c3e50;font-size: 18px;}
+  .faculty-card span {font-size: 14px;color: #7f8c8d;}
+  .faculty-card p {font-size: 13px;color: #555;margin-top: 10px;line-height: 1.5;}
+</style>
+</head>
+<body>
+{% extends 'header.html' %}
+  {% load static %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<div class="facility-section">
+  <h1>Facilities & Programs</h1>
+  <div class="facility-row">
+    <div class="facility-img">
+      <img src="{% static 'img_29.png' %}" alt="Outreach Program">
+    </div>
+    <div class="facility-text">
+      <h2>Outreach, Exposure & International Exchange</h2>
+      <p>We provide our students with global exposure through outreach programs and international exchange initiatives. These opportunities enhance cultural understanding and broaden career prospects.</p>
+      <ul>
+        <li>Student exchange with international schools</li>
+        <li>Global cultural immersion programs</li>
+        <li>Workshops with foreign faculty</li>
+      </ul>
+    </div>
+  </div>
+  <div class="facility-row">
+    <div class="facility-img">
+      <img src="{% static 'img_30.png' %}" alt="Bus Transportation">
+    </div>
+    <div class="facility-text">
+      <h2>Safe & Comfortable Bus Transportation</h2>
+      <p>Our fleet of GPS-enabled buses ensures safe, punctual, and comfortable transport for students across the city.</p>
+      <ul>
+        <li>GPS tracking for parents</li>
+        <li>Trained drivers & assistants</li>
+        <li>First-aid kits available onboard</li>
+      </ul>
+    </div>
+  </div>
+  <div class="facility-row">
+    <div class="facility-img">
+      <img src="{% static 'img_33.png' %}" alt="Smart Classrooms">
+    </div>
+    <div class="facility-text">
+      <h2>AC Smart Classrooms</h2>
+      <p>Equipped with interactive boards, multimedia lessons, and modern teaching aids, our classrooms ensure advanced and effective learning.</p>
+      <ul>
+        <li>Immersive digital lessons</li>
+        <li>Progress tracking for students</li>
+        <li>Regular assessments & reports</li>
+      </ul>
+    </div>
+  </div>
+  <div class="facility-row">
+    <div class="facility-img">
+      <img src="{% static 'img_31.png' %}" alt="Laboratories">
+    </div>
+    <div class="facility-text">
+      <h2>Advanced Laboratories</h2>
+      <p>Well-equipped laboratories for Physics, Chemistry, Biology, and Computer Science to nurture scientific curiosity and practical skills.</p>
+      <ul>
+        <li>Modern equipment & safety measures</li>
+        <li>Hands-on experiments</li>
+        <li>Guided by experienced lab instructors</li>
+      </ul>
+    </div>
+  </div>
+  <div class="facility-row">
+    <div class="facility-img">
+      <img src="{% static 'img_32.png' %}" alt="Library">
+    </div>
+    <div class="facility-text">
+      <h2>Library & Digital Resources</h2>
+      <p>Our library has a vast collection of books, journals, and digital resources that support both academic and personal growth of students.</p>
+      <ul>
+        <li>Digital e-library access</li>
+        <li>Quiet study zones</li>
+        <li>Research and reference support</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="faculty-section">
+  <h1 align="center" class="section-title">Our Faculty Members</h1>
+  <div class="faculty-grid">
+    <div class="faculty-card">
+      <img src="{% static 'img_35.png' %}" alt="Teacher">
+      <h3>Mr. Rajesh Kumar</h3>
+      <span>Mathematics Teacher</span>
+      <p>10+ years of teaching experience. Expert in making complex math easy for students.</p>
+    </div>
+    <div class="faculty-card">
+      <img src="{% static 'img_34.png' %}" alt="Teacher">
+      <h3>Mrs. Anjali Sharma</h3>
+      <span>English Teacher</span>
+      <p>Specialist in literature and grammar. Encourages students to think creatively.</p>
+    </div>
+    <div class="faculty-card">
+      <img src="{% static 'img_36.png' %}" alt="Teacher">
+      <h3>Dr. S. Banerjee</h3>
+      <span>Science Teacher</span>
+      <p>PhD in Physics. Loves to integrate experiments with theory.</p>
+    </div>
+    <div class="faculty-card">
+      <img src="{% static 'img_37.png' %}" alt="Teacher">
+      <h3>Ms. Priya Nair</h3>
+      <span>Computer Science Teacher</span>
+      <p>Expert in coding, AI, and robotics. Guides students in project-based learning.</p>
+    </div>
+    <div class="faculty-card">
+      <img src="{% static 'img_16.png' %}" alt="Teacher">
+      <h3>Sana Raj</h3>
+      <span>Mathematics Teacher</span>
+      <p>25+ years of teaching experience. Expert in making complex math easy for students.</p>
+    </div>
+    <div class="faculty-card">
+      <img src="{% static 'img_17.png' %}" alt="Teacher">
+      <h3>Dipeka Ray</h3>
+      <span>Computer Teacher</span>
+      <p>Passionate about coding, AI, and robotics. Helps students build real-world projects and develop problem-solving skills.</p>
+    </div>
+    <div class="faculty-card">
+      <img src="{% static 'img_18.png' %}" alt="Teacher">
+      <h3>Dr. Jetter Day</h3>
+      <span>Game Teacher</span>
+      <p>Encourages physical fitness and teamwork. Trains students in football, cricket, and athletics.</p>
+    </div>
+    <div class="faculty-card">
+      <img src="{% static 'img_19.png' %}" alt="Teacher">
+      <h3>Ms. Rajannya Nair</h3>
+      <span>Libraryan</span>
+      <p>Manages the school’s digital and physical library. Helps students discover useful books and resources for their studies.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+</body>
+</html>

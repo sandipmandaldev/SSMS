@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Principal Message</title>
+    <style>
+    body {font-family: Arial, sans-serif;margin: 0;padding: 0;background: #f4f6f9;}
+    .principal-section {max-width: 1300px;margin: 40px auto;background: #fff;padding: 30px;border-radius: 0px;box-shadow: 0px 4px 10px rgba(0,0,0,0.1);}
+    .principal-header {text-align: center;margin-bottom: 20px;}
+    .principal-header h1 {color: #2c3e50;margin-top: 60px;}
+    .principal-header p {font-size: 18px;margin-top: 5px;color: #555;}
+    .principal-content {display: flex;flex-wrap: wrap;gap: 20px;align-items: center;}
+    .principal-photo {flex: 1;min-width: 250px;text-align: center;}
+    .principal-photo img {max-width: 320px;border-radius: 0%;border: 4px solid #3498db;}
+    .principal-message {flex: 2;min-width: 300px;}
+    .principal-message h2 {color: #34495e;margin-bottom: 50px;}
+    .principal-message p {color: #444;text-align: justify;}
+    .signature {margin-top: 20px;font-weight: bold;color: #2c3e50;}
+  </style>
+</head>
+<body>
+{% extends 'header.html' %}
+  {% load static %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+  <div class="principal-header" >
+    <h1>Message from the Principal</h1>
+    <p>“Education is the key to unlocking the golden door of freedom.”</p>
+  </div>
+<div class="principal-section">
+  <div class="principal-content">
+    <div class="principal-photo">
+      <img src="{% static 'img_55.png' %}" alt="Principal Photo">
+    </div>
+    <div class="principal-message">
+      <h2>Dear Students, Parents, and Visitors,</h2>
+      <p>
+        It gives me immense pleasure to welcome you all to Blogrator Academy.
+        Our mission is to provide a holistic education that nurtures not only
+        the intellect but also the character and creativity of our students.
+        We believe in creating a smart learning environment where students
+        are encouraged to explore, innovate, and excel.
+      <p>
+        We live in an era of digital transformation where knowledge is accessible
+        at the click of a button. In such a time, a school cannot remain confined to
+        traditional methods of teaching. At Blogrator Academy, we strive to create a
+        smart learning environment equipped with modern tools, interactive classrooms,
+        and digital resources that encourage students to explore, innovate, and excel.
+        Learning here is not limited to memorizing facts but extends to critical thinking,
+        problem-solving, teamwork, and creativity.
+      </p>
+      <p>
+        With dedicated teachers, modern facilities, and a student-friendly
+        atmosphere, we aim to empower every child to achieve academic excellence
+        while developing values that will guide them throughout life.
+      </p>
+      <p class="signature">- Principal, Blogrator Academy</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {margin: 0;padding: 0;box-sizing: border-box;}
+    body, html {height: 100%;width: 100%;}
+    .slider {width: 100%;height: 100vh;overflow: hidden;position: relative;}
+    .slides {display: flex;transition: transform 0.8s ease-in-out;height: 100%;}
+    .slides img {width: 100%;height: 100%;flex-shrink: 0;}
+    * {margin: 0;padding: 0;box-sizing: border-box;font-family: Arial, sans-serif;}
+    body {background: #fff;}
+    .features {display: flex;justify-content: space-around;background: #4169e1;color: white;padding: 20px 0;text-align: center;}
+    .feature {flex: 1;padding: 0 15px;border-right: 1px solid rgba(255, 255, 255, 0.6);}
+    .feature:last-child {border-right: none;}
+    .feature h4 {margin-bottom: 5px;font-size: 18px;}
+    .courses {text-align: center;padding: 50px 20px;}
+    .courses h2 {font-size: 26px;margin-bottom: 20px;color: #4169e1;}
+    .course-grid {display: flex;justify-content: center;gap: 30px;flex-wrap: wrap;}
+    .course {background: #fff;box-shadow: 0 4px 8px rgba(0,0,0,0.1);border-radius: 8px;overflow: hidden;width: 420px;text-align: left;}
+    .course img {width: 100%;height: 180px;object-fit: cover;}
+    .course-content {padding: 15px;}
+    .course-content h4 {margin-bottom: 8px;color: #4169e1;}
+    .course-content p {font-size: 14px;color: #444;margin-bottom: 15px;}
+    .course button {background: #4169e1;color: #fff;padding: 10px 15px;border: none;border-radius: 5px;cursor: pointer;}
+    .course button:hover {background: blue;}
+    .chart-container {width: 100%;max-width: 1300px;height: auto;aspect-ratio: 16/9;margin: auto;padding: 0px;position: relative;border-radius: 0px;overflow: hidden;}
+    .chart-container .bg-img {position: absolute;top: 0;left: 0;width: 100%;height: 100%;object-fit: cover;z-index: 0;}
+    .chart-container canvas {position: relative;z-index: 1;background: rgba(28, 46, 80, 0.6);border-radius: 0px;padding: 15px;width: 100% !important;height: 100% !important;}
+    @media (max-width: 768px) {
+      .chart-container {height: 300px;}
+    }
+    @media (max-width: 480px) {
+      .chart-container {height: 220px;}
+    }
+    .map-section {padding: 0px 0;background-color: white;margin-top: 30px;}
+    .map-container {height: 500px;border-radius: 0px;overflow: hidden;box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);margin-top: 20px;}
+    .map-container iframe {width: 100%;height: 100%;border: none;}
+    .staff-section {text-align: center;padding: 50px 20px;}
+    .staff-section h2 {font-size: 28px;font-weight: bold;margin-bottom: 10px;color: #222;}
+    .staff-section p {color: #555;font-size: 15px;margin-bottom: 40px;}
+    .staff-container {display: flex;flex-wrap: wrap;justify-content: center;gap: 30px;}
+    .staff-card {width: 220px;text-align: center;position: relative;overflow: hidden;border-radius: 50%;}
+    .staff-card img {width: 220px;height: 220px;object-fit: cover;border-radius: 50%;transition: transform 0.4s ease;}
+    .staff-card:hover img {transform: scale(1.1);}
+    .staff-info {position: absolute;bottom: -100px;left: 0;width: 100%;background: rgba(0,0,0,0.7);color: #fff;padding: 15px 0;opacity: 0;transition: all 0.5s ease;border-radius: 0 0 50% 50%;}
+    .staff-card:hover .staff-info {bottom: 0;opacity: 1;}
+    .staff-info h3 {margin: 5px 0;font-size: 16px;}
+    .staff-info span {font-size: 13px;color: #ddd;}
+    @media (max-width: 768px) {
+      .staff-container {flex-direction: column;align-items: center;}
+    }
+    .testimonials {background: #f9f9ff;padding: 40px 20px;text-align: center;}
+    .testimonials h2 {font-size: 30px;color: #4169e1;margin-bottom: 10px;}
+    .testimonials .subtitle {color: #555;margin-bottom: 40px;font-size: 15px;}
+    .testimonial-container {display: flex;justify-content: center;gap: 30px;flex-wrap: wrap;}
+    .testimonial-card {background: #fff;box-shadow: 0 6px 15px rgba(0,0,0,0.1);border-radius: 12px;padding: 25px;max-width: 320px;transition: transform 0.3s ease, box-shadow 0.3s ease;}
+    .testimonial-card:hover {transform: translateY(-10px);box-shadow: 0 10px 25px rgba(0,0,0,0.2);}
+    .testimonial-card img {width: 90px;height: 90px;border-radius: 50%;margin-bottom: 15px;object-fit: cover;border: 3px solid #4169e1;}
+    .testimonial-card h3 {font-size: 18px;color: #222;margin-bottom: 5px;}
+    .testimonial-card span {display: block;font-size: 14px;color: #888;margin-bottom: 15px;}
+    .testimonial-card p {font-size: 15px;color: #444;line-height: 1.6;font-style: italic;}
+  </style>
+</head>
+<body>
+{% extends 'header.html' %}
+  {% load static %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<div class="slider">
+  <div class="slides" id="slides">
+    <img src="{% static 'img_54.png' %}" alt="Image 1">
+    <img src="{% static 'img_7.png' %}" alt="Image 2">
+    <img src="{% static 'img_6.png' %}" alt="Image 3">
+    <img src="{% static 'img_9.png' %}" alt="Image 4">
+    <img src="{% static 'img_10.png' %}" alt="Image 5">
+    <img src="{% static 'img_8.png' %}" alt="Image 6">
+  </div>
+</div>
+<section class="features">
+  <div class="feature">
+    <h4>🎓 Smart Classrooms</h4>
+    <p>Interactive digital boards & modern technology.</p>
+  </div>
+  <div class="feature">
+    <h4>📖 Books & Library</h4>
+    <p>Simply dummy text of the printing industry.</p>
+  </div>
+  <div class="feature">
+    <h4>🤾 Sports & Games</h4>
+    <p>Facilities for football, cricket, indoor & outdoor games.</p>
+  </div>
+  <div class="feature">
+    <h4>🏠 Hostel Facility</h4>
+    <p>Comfortable hostels with modern amenities.</p>
+  </div>
+</section>
+  <section class="courses">
+    <h2>OUR POPULAR COURSES</h2>
+    <div class="course-grid">
+      <div class="course">
+        <img src="{% static 'img_12.png' %}" alt="Course">
+        <div class="course-content">
+          <h4>Artificial Intelligence (AI)</h4>
+          <p>Learn how machines think and make decisions using AI and ML.</p>
+          <button><a href="{% url 'home' %}" style="color: white; text-decoration: none;">APPLY NOW</a></button>
+        </div>
+      </div>
+      <div class="course">
+        <img src="{% static 'img_14.png' %}" alt="Course">
+        <div class="course-content">
+          <h4>Biotechnology</h4>
+          <p>Bioinformatics, genetics, pharmaceutical industries.</p>
+          <button><a href="{% url 'home' %}" style="color: white; text-decoration: none;">APPLY NOW</a></button>
+        </div>
+      </div>
+      <div class="course">
+        <img src="{% static 'img_13.png' %}" alt="Course">
+        <div class="course-content">
+          <h4>Nursing & Healthcare Management</h4>
+          <p>Clinical practice + hospital management.</p>
+          <button><a href="{% url 'home' %}" style="color: white; text-decoration: none;">APPLY NOW</a></button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <h1 align="center">ACHIEVEMENTS</h1>
+<p align="center">Animated Multi Line Chart</p>
+  <div class="chart-container">
+    <img src="{% static 'img_15.png' %}" alt="bg" class="bg-img">
+    <canvas id="multiLineChart"></canvas>
+  </div>
+  <section class="staff-section">
+    <h2>OUR EXPERIENCED FACULTY</h2>
+    <p>Viewing desire as the main driving force behind the creation of narratives can be a valuable perspective.</p>
+    <div class="staff-container">
+      <div class="staff-card">
+        <img src="{% static 'img_16.png' %}" alt="Stella Roffin">
+        <div class="staff-info">
+          <h3>Sana Raj</h3>
+          <span>Mathematics Teacher</span>
+        </div>
+      </div>
+      <div class="staff-card">
+        <img src="{% static 'img_17.png' %}" alt="Princy Flora">
+        <div class="staff-info">
+          <h3>Dipeka Ray</h3>
+          <span>Computer Teacher</span>
+        </div>
+      </div>
+      <div class="staff-card">
+        <img src="{% static 'img_18.png' %}" alt="Jesica Matt">
+        <div class="staff-info">
+          <h3>Dr. Jetter Day</h3>
+          <span>Game Teacher</span>
+        </div>
+      </div>
+      <div class="staff-card">
+        <img src="{% static 'img_19.png' %}" alt="Janaton Doe">
+        <div class="staff-info">
+          <h3>Ms. Rajannya Nair</h3>
+          <span>Libraryan</span>
+        </div>
+      </div>
+    </div>
+  </section>
+<section class="testimonials">
+  <h2>OUR STUDENTS SPEAK</h2>
+  <p class="subtitle">Real experiences shared by our students</p>
+  <div class="testimonial-container">
+    <div class="testimonial-card">
+      <img src="{% static 'img_20.png' %}" alt="Student 1">
+      <h3>Sohini Das</h3>
+      <span>AI Student</span>
+      <p>
+        “Blogrator Academy introduced me to modern technologies.
+        The teachers’ guidance is truly amazing.”
+      </p>
+    </div>
+    <div class="testimonial-card">
+      <img src="{% static 'img_22.png' %}" alt="Student 2">
+      <h3>Rahul Mondal</h3>
+      <span>Biotech Student</span>
+      <p>
+        “The laboratory and library facilities have helped me a lot in my studies.”
+      </p>
+    </div>
+    <div class="testimonial-card">
+      <img src="{% static 'img_21.png' %}" alt="Student 3">
+      <h3>Priya Ghosh</h3>
+      <span>Nursing Student</span>
+      <p>
+        “The healthcare management course here was the best decision for my career.”
+      </p>
+    </div>
+    <div class="testimonial-card">
+  <img src="{% static 'img_23.png' %}" alt="Student 4">
+  <h3>Ayan Sen</h3>
+  <span>Computer Science Student</span>
+  <p>
+    “The smart classrooms and interactive teaching methods at Blogrator Academy
+    made learning enjoyable and effective. Highly recommended for tech enthusiasts!”
+  </p>
+</div>
+  </div>
+</section>
+    <section class="map-section">
+        <div class="container">
+            <div class="section-title">
+                <h1 align="center">VISIT OUR CAMPUS</h1>
+                <p align="center">We're located in the heart of the community, easily accessible to students from all areas.</p>
+            </div>
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3683.145737502188!2d87.20662501497386!3d22.90067898501401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f8cf95d63f1e23%3A0xfefc6818d7a2bda1!2sAmakonda%2C%20Simlapal%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1697988586485!5m2!1sen!2sin"
+                    allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+<script>
+  const slidesContainer = document.getElementById("slides");
+  const slideImages = slidesContainer.querySelectorAll("img");
+  const totalSlides = slideImages.length;
+  const firstClone = slideImages[0].cloneNode(true);
+  const lastClone = slideImages[totalSlides - 1].cloneNode(true);
+  slidesContainer.appendChild(firstClone);
+  slidesContainer.insertBefore(lastClone, slidesContainer.firstChild);
+  let index = 1;
+  const slideWidth = 100;
+  slidesContainer.style.transform = `translateX(${-index * slideWidth}%)`;
+  function moveSlide() {
+    index++;
+    slidesContainer.style.transition = "transform 0.8s ease-in-out";
+    slidesContainer.style.transform = `translateX(${-index * slideWidth}%)`;
+  }
+  slidesContainer.addEventListener("transitionend", () => {
+    if (index === totalSlides + 1) {
+      slidesContainer.style.transition = "none";
+      index = 1;
+      slidesContainer.style.transform = `translateX(${-index * slideWidth}%)`;
+    }
+    if (index === 0) {
+      slidesContainer.style.transition = "none";
+      index = totalSlides;
+      slidesContainer.style.transform = `translateX(${-index * slideWidth}%)`;
+    }
+  });
+  let autoPlay = setInterval(moveSlide, 3000);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      slidesContainer.style.transition = "none";
+      slidesContainer.style.transform = `translateX(${-index * slideWidth}%)`;
+      clearInterval(autoPlay);
+      autoPlay = setInterval(moveSlide, 4000);
+    } else {
+      clearInterval(autoPlay);
+    }
+  });
+  window.addEventListener("resize", () => {
+    slidesContainer.style.transition = "none";
+    slidesContainer.style.transform = `translateX(${-index * slideWidth}%)`;
+  });
+    document.querySelectorAll(".accordion-header").forEach(header => {
+      header.addEventListener("click", () => {
+        const body = header.nextElementSibling;
+        body.style.display = body.style.display === "block" ? "none" : "block";
+      });
+    });
+    new Chart(document.getElementById("multiLineChart"), {
+      type: "line",
+      data: {
+        labels: ["2021", "2022", "2023", "2024", "2025"],
+        datasets: [
+          {
+            label: "Graduates",
+            data: [50, 200, 600, 900, 1000],
+            borderColor: "yellow",
+            backgroundColor: "rgba(255, 255, 0, 0.2)",
+            fill: false,
+            tension: 0.4
+          },
+          {
+            label: "Certified Teachers",
+            data: [150, 300, 350, 400, 500],
+            borderColor: "orange",
+            backgroundColor: "rgba(255, 165, 0, 0.2)",
+            fill: false,
+            tension: 0.4
+          },
+          {
+            label: "Student Campuses",
+            data: [25, 120, 340, 616, 818],
+            borderColor: "cyan",
+            backgroundColor: "rgba(0, 255, 255, 0.2)",
+            fill: false,
+            tension: 0.4
+          },
+          {
+            label: "Students",
+            data: [200, 400, 900, 1000, 1149],
+            borderColor: "lime",
+            backgroundColor: "rgba(0, 255, 0, 0.2)",
+            fill: false,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        animation: {
+          duration: 3000,
+          easing: "easeInOutQuart"
+        },
+        plugins: {
+          legend: {
+            labels: { color: "white" }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: "white" },
+            grid: { color: "rgba(255,255,255,0.2)" }
+          },
+          y: {
+            ticks: { color: "white" },
+            grid: { color: "rgba(255,255,255,0.2)" }
+          }
+        }
+      }
+    });
+</script>
+{% endblock %}
+</body>
+</html>

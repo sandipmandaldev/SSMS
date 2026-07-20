@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result Search</title>
+    <style>
+        body {font-family: Arial, sans-serif;background: #f8f9fa;margin: 0;padding: 0;color: #333;}
+        .container {width: 90%;max-width: 1300px;margin: 50px auto;padding-bottom: 120px;}
+        h1 {text-align: center;margin-bottom: 30px;color: #0d6efd;}
+        form {background: #fff;padding: 25px;border-radius: 10px;box-shadow: 0 3px 10px rgba(0,0,0,0.1);}
+        form .mb-3 {margin-bottom: 15px;}
+        label {display: block;font-weight: bold;margin-bottom: 6px;}
+        input {width: 100%;padding: 10px;border: 1px solid #ccc;border-radius: 6px;font-size: 15px;}
+        button {width: 100%;padding: 12px;border: none;border-radius: 0px;background: #0d6efd;color: #fff;font-size: #px;cursor: pointer;}
+        .alert {margin-top: 20px;padding: 15px;border-radius: 6px;font-weight: bold;}
+        .alert-danger {background: #f8d7da;color: #842029;border: 1px solid #f5c2c7;}
+        .result-card {border-radius: 12px;box-shadow: 0 4px 12px rgba(0,0,0,0.1);background: #fff;padding: 25px;margin-top: 20px;}
+        .result-card h4 {font-weight: bold;color: #0d6efd;margin-bottom: 10px;}
+        .result-card h5 {margin: 6px 0;font-size: 15px;font-weight: normal;}
+        .result-card p {margin: 8px 0;font-size: 15px;}
+        .result-card hr {margin: 15px 0;border: none;border-top: 1px solid #ddd;}
+        .grade-badge {font-size: 16px;padding: 6px 12px;border-radius: 8px;font-weight: bold;}
+        .grade-A { background: #198754; color: white; }
+        .grade-B { background: #0dcaf0; color: white; }
+        .grade-C { background: #ffc107; color: black; }
+        .grade-F { background: #dc3545; color: white; }
+        .status-badge {padding: 6px 12px;border-radius: 6px;font-weight: bold;}
+        .status-pass { background: #198754; color: white; }
+        .status-fail { background: #dc3545; color: white; }
+        .back-btn {display: inline-block;margin-top: 15px;padding: 10px 16px;border-radius: 6px;background: #6c757d;color: white;text-decoration: none;font-size: 15px;}
+        .back-btn:hover {background: #5a6268;}
+        .text-muted {color: #6c757d;font-size: 14px;}
+    </style>
+</head>
+<body>
+{% extends 'header.html' %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>🔍 Student Result Search</h1>
+    {% if not result %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label>Registration ID</label>
+            <input type="text" name="id" placeholder="Enter Registration ID" required>
+        </div>
+        <div class="mb-3">
+            <label>Date of Birth</label>
+            <input type="date" name="dob" required>
+        </div>
+        <button type="submit">Search</button>
+    </form>
+    {% endif %}
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    {% if result %}
+    <div class="result-card">
+        <h4>📘 {{ result.student.name }} (ID: {{ result.student.id }})</h4>
+        <h5>DOB: {{ result.student.dob }} | Gender: {{ result.student.gender }}</h5>
+        <h5>Email: {{ result.student.email }}</h5>
+        <hr>
+        <p><strong>Exam:</strong> {{ result.exam_name }}</p>
+        <p><strong>Total Marks:</strong> {{ result.total_marks }}</p>
+        <p><strong>Obtained Marks:</strong> {{ result.obtained_marks }}</p>
+        <p><strong>Percentage:</strong> {{ result.percentage }}%</p>
+        <p>
+            <strong>Grade:</strong>
+            <span class="grade-badge grade-{{ result.grade|default:'F' }}">
+                {{ result.grade }}
+            </span>
+        </p>
+        <p><strong>Status:</strong>
+            {% if result.status == "Pass" %}
+                <span class="status-badge status-pass">Pass ✅</span>
+            {% else %}
+                <span class="status-badge status-fail">Fail ❌</span>
+            {% endif %}
+        </p>
+        <p class="text-muted">Uploaded At: {{ result.uploaded_at|date:"d-m-Y H:i" }}</p>
+        <a href="{% url 'search_result' %}" class="back-btn">🔙 Back to Search Another Result</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+</body>
+</html>

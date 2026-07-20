@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Uniform</title>
+  <style>
+    .uniform {padding: 50px 100px;}
+    .page-title {text-align: center;margin-bottom: 10px;color: #333;}
+    .subtitle {text-align: center;color: #666;margin-bottom: 40px;}
+    .uniform-intro {text-align: center;margin-bottom: 40px;}
+    .uniform-intro img {max-width: 800px;width: 100%;border-radius: 12px;margin-bottom: 15px;}
+    .uniform-intro p {font-size: 1rem;color: #444;}
+    .uniform-section {margin-bottom: 50px;}
+    .uniform-section h2 {text-align: center;margin-bottom: 25px;color: #0073e6;}
+    .uniform-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));gap: 25px;}
+    .uniform-card {background: #fff;padding: 20px;border-radius: 12px;box-shadow: 0 4px 8px rgba(0,0,0,0.1);text-align: center;}
+    .uniform-card img {width: 95%;height: 85%;object-fit: cover;border-radius: 0px;margin-bottom: 15px;}
+    .uniform-card h3 {color: #333;margin-bottom: 10px;}
+    .uniform-card p {color: #555;font-size: 0.95rem;}
+    .uniform-rules {background: #f5f7fa;padding: 30px;border-radius: 12px;}
+    .uniform-rules h2 {margin-bottom: 15px;color: #444;}
+    .uniform-rules ul {list-style: none;padding: 0;}
+    .uniform-rules li {margin: 10px 0;padding-left: 20px;position: relative;}
+    .uniform-rules li::before {content: "✔";color: #0073e6;position: absolute;left: 0;}
+</style>
+</head>
+<body>
+{% extends 'header.html' %}
+  {% load static %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<section class="uniform">
+  <h1 class="page-title">School Uniform</h1>
+  <p class="subtitle">Discipline, unity and identity through uniform</p>
+  <div class="uniform-intro">
+    <img src="{% static 'img_52.png' %}" alt="School Uniform">
+    <p>
+      At Blogrator Academy, the school uniform represents equality and discipline.
+      Every student is expected to wear the prescribed uniform with pride and dignity.
+    </p>
+  </div>
+  <div class="uniform-section">
+    <h2>Boys & Girls Uniform (Class- 1 to Class- 6)</h2>
+    <div class="uniform-grid">
+      <div class="uniform-card">
+        <img src="{% static 'img_49.png' %}" alt="Boys Uniform Summer">
+        <h3>Summer Uniform</h3>
+        <p>White shirt, navy blue trousers, tie, black shoes, school badge.</p>
+      </div>
+      <div class="uniform-card">
+        <img src="{% static 'img_48.png' %}" alt="Boys Uniform Winter">
+        <h3>Winter Uniform</h3>
+        <p>Navy blue blazer, white shirt, tie, grey sweater, black shoes.</p>
+      </div>
+    </div>
+  </div>
+  <div class="uniform-section">
+    <h2>Boys & Girls Uniform (Other's)</h2>
+    <div class="uniform-grid">
+      <div class="uniform-card">
+        <img src="{% static 'img_51.png' %}" alt="Girls Uniform Summer">
+        <h3>Summer Uniform</h3>
+        <p>White blouse, navy blue skirt, tie, black shoes, school badge.</p>
+      </div>
+      <div class="uniform-card">
+        <img src="{% static 'img_50.png' %}" alt="Girls Uniform Winter">
+        <h3>Winter Uniform</h3>
+        <p>Navy blue blazer, white blouse, grey sweater, skirt/trousers, black shoes.</p>
+      </div>
+    </div>
+  </div>
+  <div class="uniform-rules">
+    <h2>📌 Uniform Guidelines</h2>
+    <ul>
+      <li>Uniform must be clean and properly ironed every day.</li>
+      <li>Students must wear the school badge at all times.</li>
+      <li>Only black shoes and white socks are allowed.</li>
+      <li>No fancy jewelry, watches, or accessories permitted.</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}
+</body>
+</html>

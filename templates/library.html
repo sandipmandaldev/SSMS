@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    body {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background-color: #f8f9fa;color: #333;}
+    h4 {color: #0d6efd;}
+    h5 {margin-top: 2px;border-left: 5px solid #198754;padding-left: 10px;}
+    table {background-color: #fff;box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+    th {text-align: center;}
+    td {vertical-align: middle;text-align: center;color: black;}
+    .available {color: green;font-weight: bold;}
+    .not-available {color: red;font-weight: bold;}
+    tr:hover {background-color: #f1f1f1;}
+</style>
+</head>
+<body>
+{% extends "base.html" %}
+{% block title %}Smart School{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h4 class="text-center mb-4">📚Library</h4>
+    {% if student.is_librarian %}
+    <div class="card mb-4 p-3 shadow-sm">
+        <h5>📚 Add New Book</h5>
+        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#addBookModal">
+            ➕ Add Book
+        </button>
+    </div>
+    {% endif %}
+    {% regroup books by book_class as class_list %}
+    {% for class_group in class_list %}
+        <h4 class="mt-4 text-primary">{{ class_group.grouper }}</h4>
+        {% regroup class_group.list by subject as subject_list %}
+        {% for subject_group in subject_list %}
+            <h5 class="text-success">📖 {{ subject_group.grouper }}</h5>
+            <table class="table table-bordered table-hover table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>S.N</th>
+                        <th>Book Title</th>
+                        <th>Author</th>
+                        <th>ISBN</th>
+                        <th>Category</th>
+                        <th>Published Year</th>
+                        <th>Available Copies</th>
+                        {% if student.is_librarian %}<th>Actions</th>{% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in subject_group.list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.isbn }}</td>
+                        <td>{{ book.category }}</td>
+                        <td>{{ book.published_year }}</td>
+                        <td>
+                            {% if book.available_copies > 0 %}
+                                <span class="available">✅ {{ book.available_copies }}</span>
+                            {% else %}
+                                <span class="not-available">❌ Not Available</span>
+                            {% endif %}
+                        </td>
+                        {% if student.is_librarian %}
+                        <td>
+                            <button type="button" class="btn btn-sm btn-success"
+                                data-bs-toggle="modal" data-bs-target="#editModal"
+                                onclick="fillEditModal('{{ book.id }}','{{ book.title }}','{{ book.author }}',
+                                '{{ book.isbn }}','{{ book.category }}','{{ book.published_year }}',
+                                '{{ book.available_copies }}','{{ book.book_class }}','{{ book.subject }}')">
+                                Edit
+                            </button>
+                            <form method="post" style="display:inline-block;">
+                                {% csrf_token %}
+                                <input type="hidden" name="book_id" value="{{ book.id }}">
+                                <button type="submit" name="delete_book" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    {% endfor %}
+</div>
+<div class="modal fade" id="addBookModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title">📚 Add New Book</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row g-2">
+                <div class="col-md-4"><input type="text" name="title" placeholder="Title" class="form-control" required></div>
+                <div class="col-md-4"><input type="text" name="author" placeholder="Author" class="form-control" required></div>
+                <div class="col-md-4"><input type="text" name="isbn" placeholder="ISBN" class="form-control" required></div>
+                <div class="col-md-4"><input type="text" name="category" placeholder="Category" class="form-control" required></div>
+                <div class="col-md-4"><input type="number" name="published_year" placeholder="Year" class="form-control" required></div>
+                <div class="col-md-4"><input type="number" name="available_copies" placeholder="Copies" class="form-control" required></div>
+                <div class="col-md-4"><input type="text" name="book_class" placeholder="Class" class="form-control" required></div>
+                <div class="col-md-4"><input type="text" name="subject" placeholder="Subject" class="form-control" required></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" name="add_book" class="btn btn-success w-100">💾 Save Book</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title">✏️ Edit Book</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" name="book_id" id="edit_book_id">
+            <div class="row g-2">
+                <div class="col-md-4"><input type="text" name="title" id="edit_title" placeholder="Title" class="form-control" required></div>
+                <div class="col-md-4"><input type="text" name="author" id="edit_author" placeholder="Author" class="form-control" required></div>
+                <div class="col-md-4"><input type="text" name="isbn" id="edit_isbn" placeholder="ISBN" class="form-control" required></div>
+                <div class="col-md-4"><input type="text" name="category" id="edit_category" placeholder="Category" class="form-control" required></div>
+                <div class="col-md-4"><input type="number" name="published_year" id="edit_published_year" placeholder="Year" class="form-control" required></div>
+                <div class="col-md-4"><input type="number" name="available_copies" id="edit_available_copies" placeholder="Copies" class="form-control" required></div>
+                <div class="col-md-4"><input type="text" name="book_class" id="edit_book_class" placeholder="Class" class="form-control" required></div>
+                <div class="col-md-4"><input type="text" name="subject" id="edit_subject" placeholder="Subject" class="form-control" required></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" name="edit_book" class="btn btn-success w-100">💾 Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+function fillEditModal(id, title, author, isbn, category, year, copies, bookClass, subject) {
+    document.getElementById("edit_book_id").value = id;
+    document.getElementById("edit_title").value = title;
+    document.getElementById("edit_author").value = author;
+    document.getElementById("edit_isbn").value = isbn;
+    document.getElementById("edit_category").value = category;
+    document.getElementById("edit_published_year").value = year;
+    document.getElementById("edit_available_copies").value = copies;
+    document.getElementById("edit_book_class").value = bookClass;
+    document.getElementById("edit_subject").value = subject;
+}
+</script>
+{% endblock %}
+</body>
+</html>

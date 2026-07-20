@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fees</title>
+    <style>
+    input[type="number"]:focus {border-color: #0b3d91;box-shadow: 0 0 8px rgba(11, 61, 145, 0.3);outline: none;}
+    button:hover {background: linear-gradient(135deg, #08306b, #0b3d91);transform: translateY(-2px);box-shadow: 0 5px 15px rgba(11, 61, 145, 0.4);}
+    </style>
+</head>
+<body>
+{% extends "base.html" %}
+{% block title %}School{% endblock %}
+{% block content %}
+    <h2 style="text-align: center; color: #0b3d91; margin-bottom: 20px; font-size: 28px; font-weight: 700;">💰 Pay School Fees</h2>
+<div style="max-width: 1300px; margin: 40px auto; padding: 30px; background: linear-gradient(135deg, #ffffff, #f9fbff); border-radius: 0px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); font-family: 'Segoe UI', sans-serif;">
+    <form method="post" style="display: flex; flex-direction: column; gap: 20px;">
+        {% csrf_token %}
+        <div>
+            <label style="font-weight: 600; color: black; display:block; margin-bottom:8px;">Select Fee Type(s):</label>
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 16px; color: black;">
+                <label><input type="checkbox" class="feeOption" value="5000"> Admission Fees (₹5000)</label>
+                <label><input type="checkbox" class="feeOption" value="2000"> Tuition Fees (₹2000)</label>
+                <label><input type="checkbox" class="feeOption" value="1000"> Exam Fees (₹1000)</label>
+                <label><input type="checkbox" class="feeOption" value="500"> Library Fees (₹500)</label>
+                <label><input type="checkbox" class="feeOption" value="800"> Sports Fees (₹800)</label>
+            </div>
+        </div>
+        <div>
+            <label style="font-weight: 600; color: black;">Total Amount (₹):</label>
+            <input type="number" id="amountInput" name="amount" readonly
+                   style="width: 100%; padding: 8px; margin-top: 8px; border: 1px solid #ccc; border-radius: 0px; font-size: 16px;">
+        </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <div>
+            <label style="font-weight: 600; color: #333; display:block; margin-bottom:8px;">
+                Select Payment Method:
+            </label>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; font-size: 16px; color: #444;">
+                <label style="flex: 1 1 45%; display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 140px;">
+                    <input type="radio" name="method" value="razorpay" required>
+                    <i class="fa-solid fa-credit-card" style="color:#0b3d91;"></i> Razorpay
+                </label>
+                <label style="flex: 1 1 45%; display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 140px;">
+                    <input type="radio" name="method" value="paypal">
+                    <i class="fa-brands fa-paypal" style="color:#003087;"></i> PayPal
+                </label>
+                <label style="flex: 1 1 45%; display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 140px;">
+                    <input type="radio" name="method" value="stripe">
+                    <i class="fa-brands fa-cc-stripe" style="color:#6772e5;"></i> Stripe
+                </label>
+                <label style="flex: 1 1 45%; display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 140px;">
+                    <input type="radio" name="method" value="phonepe">
+                    <i class="fa-solid fa-mobile-screen" style="color:#6f42c1;"></i> PhonePe
+                </label>
+            </div>
+        </div>
+        <button type="submit"
+                style="background: linear-gradient(135deg, #0b3d91, #1d5dc9); color: white; padding: 10px; border: none; border-radius: 0px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+            Proceed to Pay
+        </button>
+    </form>
+</div>
+<script>
+    const checkboxes = document.querySelectorAll(".feeOption");
+    const amountInput = document.getElementById("amountInput");
+    function calculateTotal() {
+        let total = 0;
+        checkboxes.forEach(cb => {
+            if (cb.checked) {
+                total += parseInt(cb.value);
+            }
+        });
+        amountInput.value = total;
+    }
+    checkboxes.forEach(cb => {
+        cb.addEventListener("change", calculateTotal);
+    });
+</script>
+{% endblock %}
+</body>
+</html>

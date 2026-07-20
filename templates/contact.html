@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Query</title>
+  <style>
+    body {font-family: Arial, sans-serif;margin: 0;padding: 0;background: #f8f9fa;color: #333;}
+    .container {width: 80%;max-width: 1300px;margin: auto;}
+    .mt-3 { margin-top: 1rem; }
+    .mt-5 { margin-top: 3rem; }
+    .mb-5 { margin-bottom: 3rem; }
+    .mb-4 { margin-bottom: 1.5rem; }
+    h2 {text-align: left;color: #4169e1;margin-bottom: 10px;}
+    .alert {padding: 15px;border-radius: 5px;margin-bottom: 15px;position: relative;animation: fadeIn 0.5s ease-in;}
+    .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .btn-close {position: absolute;top: 10px;right: 10px;background: transparent;border: none;font-size: 18px;cursor: pointer;}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    form {background: #fff;padding: 20px;border-radius: 8px;box-shadow: 0px 3px 10px rgba(0,0,0,0.1);}
+    form p {margin-bottom: 15px;}
+    form input, form textarea, form select {width: 100%;padding: 10px;margin-top: 5px;border-radius: 5px;border: 1px solid #ccc;}
+    form button {padding: 10px 20px;background: #4169e1;border: none;color: white;font-size: 16px;border-radius: 5px;cursor: pointer;}
+    form button:hover {background: #218838;}
+    .row {display: flex;flex-wrap: wrap;gap: 20px;justify-content: center;}
+    .col {flex: 1;min-width: 250px;padding: 20px;background: #fff;border-radius: 8px;box-shadow: 0px 3px 10px rgba(0,0,0,0.1);text-align: center;}
+    .col h5 {margin-bottom: 10px;color: #4169e1;}
+  </style>
+</head>
+<body>
+{% extends 'header.html' %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<h1 align="center" style="margin-top:40px;">Contact</h1>
+<div class="container mt-3">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+        <button type="button" class="btn-close" onclick="this.parentElement.remove()">×</button>
+      </div>
+    {% endfor %}
+  {% endif %}
+</div>
+<div class="container mt-5">
+  <h2>Send Your Query</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+  </form>
+</div>
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col">
+      <h5>📍 Our Location</h5>
+      <p>350 Fifth Avenue, 52th Floor<br>New York NY 15628-3548, USA</p>
+    </div>
+    <div class="col">
+      <h5>☎ Call Us</h5>
+      <p>Email: info@abcschool.com<br>Mobile: +91-9555498454</p>
+    </div>
+    <div class="col">
+      <h5>🕒 Working Hours</h5>
+      <p>Mon-Fri: 9 AM - 5 PM<br>Saturday: 9 AM - 3 PM</p>
+    </div>
+  </div>
+</div>
+<script>
+  setTimeout(function() {
+    let alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(alert) {
+      alert.remove();
+    });
+  }, 5000);
+</script>
+{% endblock %}
+</body>
+</html>

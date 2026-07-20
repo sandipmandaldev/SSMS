@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bus</title>
+    <style>
+        body {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background: #eef2f7;padding: 0px;margin: 0;color: #333;}
+        h1 {text-align: center;color: #2c3e50;margin-bottom: 30px;}
+        .search-box {display: flex;justify-content: center;margin-bottom: 3px;}
+        .search-box input[type="text"] {padding: 10px 14px;width: 1200px;border-radius: 25px;border: 1px solid #ccc;outline: none;transition: all 0.3s ease;}
+        .search-box input[type="text"]:focus {border-color: #3498db;box-shadow: 0 0 6px rgba(52, 152, 219, 0.4);}
+        .search-box button {padding: 10px 20px;margin-left: 10px;background: linear-gradient(135deg, #3498db, #2980b9);color: white;font-weight: bold;border: none;border-radius: 25px;cursor: pointer;transition: background 0.3s ease;}
+        .search-box button:hover {background: linear-gradient(135deg, #2980b9, #1c5980);}
+        .bus-card {background: #fff;padding: 20px;margin: 20px auto;max-width: 1300px;border-radius: 2px;box-shadow: 0 4px 12px rgba(0,0,0,0.1);transition: transform 0.2s ease, box-shadow 0.2s ease;}
+        .bus-card:hover {transform: translateY(-5px);box-shadow: 0 6px 16px rgba(0,0,0,0.15);}
+        .bus-card h3 {margin: 0;font-size: 20px;color: #34495e;}
+        .stoppages {margin-top: 15px;padding-left: 20px;list-style: none;}
+        .stoppages li {background: #f8f9fa;padding: 8px 12px;margin: 6px 0;border-left: 4px solid #3498db;border-radius: 6px;transition: all 0.3s ease;}
+        .stoppages li:hover {background: #eaf4fc;border-left-color: #2980b9;}
+        @media (max-width: 768px) {
+            .bus-card {max-width: 100%;}
+            .search-box {flex-direction: row;justify-content: center;flex-wrap: wrap;}
+            .search-box input[type="text"] {width: 80%;margin-bottom: 0;}
+            .search-box button {width: auto;margin-left: 10px;}
+        }
+    </style>
+</head>
+<body>
+{% extends "base.html" %}
+{% block title %}Smart School{% endblock %}
+{% block content %}
+    <h1>Bus and Stoppages</h1>
+    <form method="get" class="search-box">
+        <input type="text" name="q" placeholder="Search by stoppage name..." value="{{ query|default:'' }}">
+        <button type="submit">Search</button>
+    </form>
+    {% for bus in buses %}
+        <div class="bus-card">
+            <h3>🚌 Bus Number: {{ bus.bus_number }}</h3>
+            <ul class="stoppages">
+                {% for stop in bus.stoppages.all %}
+                    <li>{{ stop.order }}. {{ stop.stoppage_name }}</li>
+                {% empty %}
+                    <li>No stoppages available.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% empty %}
+        <p>No buses found.</p>
+    {% endfor %}
+{% endblock %}
+</body>
+</html>

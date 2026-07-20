@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pre Primary</title>
+</head>
+<body>
+{% extends 'header.html' %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<div style="text-align:center; padding:50px 20px;">
+    <h1 style="font-size:2em;">Pre Primary</h1>
+    <p style="font-size:1.2em; color:#34495e;">We nurture young minds with love, care, and creativity.</p>
+</div>
+<div style="max-width:1000px; margin:0 auto; padding:40px 20px; background-color:#ffffff; text-align:center;">
+    <h2 style="color:#2980b9;">About Our Pre Primary Program</h2>
+    <p style="font-size:1em; color:#555;">
+      Our pre-primary program is thoughtfully designed to nurture young minds and create a strong foundation for lifelong learning.
+      At this crucial stage of development, children are naturally curious, imaginative, and eager to explore the world around them.
+      Recognizing this, our curriculum emphasizes early learning through play, storytelling, and creative activities, which are not
+      only enjoyable but also highly effective in promoting cognitive, emotional, and social growth.
+
+      <br><br>Play is an essential tool for learning in early childhood, and our program leverages it in multiple ways.
+      Through guided and free play, children develop critical thinking, problem-solving, and motor skills. Activities such as building blocks,
+      role-playing, and interactive games encourage children to experiment, explore,
+      and discover new concepts in a natural and stress-free environment. These playful experiences form the foundation for
+      creativity and intellectual curiosity, helping children build confidence and independence.
+    </p>
+</div>
+<div style="display:flex; justify-content:space-around; flex-wrap:wrap; padding:40px 20px; background-color:#f9f9f9;">
+    <div style="width:250px; margin:20px; padding:20px; border-radius:10px; background-color:#ffffff; box-shadow:0 0 10px rgba(0,0,0,0.1);">
+        <h3 style="color:#e67e22;">Fun Learning</h3>
+        <p>Interactive activities to make learning enjoyable and effective.</p>
+    </div>
+    <div style="width:250px; margin:20px; padding:20px; border-radius:10px; background-color:#ffffff; box-shadow:0 0 10px rgba(0,0,0,0.1);">
+        <h3 style="color:#27ae60;">Creative Play</h3>
+        <p>Hands-on projects that encourage imagination and problem-solving skills.</p>
+    </div>
+    <div style="width:250px; margin:20px; padding:20px; border-radius:10px; background-color:#ffffff; box-shadow:0 0 10px rgba(0,0,0,0.1);">
+        <h3 style="color:#2980b9;">Caring Environment</h3>
+        <p>A nurturing and safe space for your child to grow and explore.</p>
+    </div>
+</div>
+<div style="padding:40px 20px; background-color:#ecf0f1; text-align:center;">
+    <h2 style="color:#c0392b;">Join Our Pre Primary Family</h2>
+    <p>Contact us today to enroll your child and give them a head start for a bright future!</p>
+    <a href="/register/" style="display:inline-block; padding:10px 25px; margin-top:15px; background-color:#c0392b; color:#fff; border-radius:5px; text-decoration:none;">Admission</a>
+</div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course</title>
+  <style>
+    .courses {padding: 50px 130px;text-align: center;}
+    .page-title {margin-bottom: 10px;color: #333;}
+    .subtitle {font-size: 1.2rem;margin-bottom: 40px;color: #666;}
+    .course-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));gap: 25px;}
+    .course-card {background: #fff;border-radius: 0px;box-shadow: 0 4px 8px rgba(0,0,0,0.1);padding: 20px;transition: transform 0.3s;}
+    .course-card:hover {transform: translateY(-8px);}
+    .course-card img {width: 100%;height: 180px;border-radius: 0px;object-fit: cover;margin-bottom: 15px;}
+    .course-card h3 {color: #0073e6;margin-bottom: 10px;}
+    .course-card p {font-size: 0.95rem;color: #555;margin-bottom: 15px;}
+    .btn {display: inline-block;padding: 10px 20px;background: #0073e6;color: #fff;border-radius: 8px;text-decoration: none;font-size: 0.95rem;transition: background 0.3s;}
+    .btn:hover {background: #005bb5;}
+  </style>
+</head>
+<body>
+{% extends 'header.html' %}
+  {% load static %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<section class="courses">
+  <h1 class="page-title">Our Courses</h1>
+  <p class="subtitle">Explore our popular courses designed for your growth</p>
+  <div class="course-grid">
+    <div class="course-card">
+      <img src="{% static 'img_43.png' %}" alt="Python Course">
+      <h3>Python Programming</h3>
+      <p>Learn Python from basics to advanced with real projects.</p>
+      <a href="#" class="btn">Enroll Now</a>
+    </div>
+    <div class="course-card">
+      <img src="{% static 'img_45.png' %}" alt="Web Development">
+      <h3>Web Development</h3>
+      <p>Master HTML, CSS, JavaScript & Django to build websites.</p>
+      <a href="#" class="btn">Enroll Now</a>
+    </div>
+    <div class="course-card">
+      <img src="{% static 'img_44.png' %}" alt="Java Course">
+      <h3>Java Programming</h3>
+      <p>Comprehensive course on Java & Object-Oriented Programming.</p>
+      <a href="#" class="btn">Enroll Now</a>
+    </div>
+        <div class="course-card">
+      <img src="{% static 'img_46.png' %}" alt="Python Course">
+      <h3>C Programming</h3>
+      <p>Learn C from basics to advanced with real projects.</p>
+      <a href="#" class="btn">Enroll Now</a>
+    </div>
+    <div class="course-card">
+      <img src="{% static 'img_13.png' %}" alt="Web Development">
+      <h3>Nursing & Healthcare Management</h3>
+      <p>Clinical practice + hospital management.</p>
+      <a href="#" class="btn">Enroll Now</a>
+    </div>
+    <div class="course-card">
+      <img src="{% static 'img_47.png' %}" alt="Java Course">
+      <h3>Data Science</h3>
+      <p>Master data analysis, visualization, and machine learning techniques.</p>
+      <a href="#" class="btn">Enroll Now</a>
+    </div>
+    <div class="course-card">
+      <img src="{% static 'img_14.png' %}" alt="Web Development">
+      <h3>Biotechnology</h3>
+      <p>Bioinformatics, genetics, pharmaceutical industries.</p>
+      <a href="#" class="btn">Enroll Now</a>
+    </div>
+    <div class="course-card">
+      <img src="{% static 'img_12.png' %}" alt="Java Course">
+      <h3>Artificial Intelligence (AI)</h3>
+      <p>Learn how machines think and make decisions using AI and ML.</p>
+      <a href="#" class="btn">Enroll Now</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
+</body>
+</html>

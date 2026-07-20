@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Council</title>
+</head>
+<body>
+{% extends 'header.html' %}
+  {% load static %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<div style="text-align:center; padding:50px 20px;">
+    <h1 style=" color:#2c3e50;">Career Council</h1>
+    <p style="font-size:1.2em; color:#34495e;">Guiding students towards a successful career path and holistic development.</p>
+</div>
+<div style="max-width:1300px; margin:40px auto; padding:30px; background:#ffffff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); text-align:center;">
+    <img src="{% static 'img_15.png' %}" alt="Career Council" style="width:100%; max-width:800px; max-height:350px; border-radius:0px; margin-bottom:20px;">
+    <h2 style="color:#2980b9; margin-bottom:20px;">Career Council</h2>
+    <p style="color:#555; line-height:1.6;">
+    The Career Council is a specialized organization that helps students explore the right career options based on their interests and skills.
+      This council assists students in developing professional abilities, building self-confidence, and acquiring
+      the capacity to make informed and thoughtful decisions. When students plan their future and set career goals,
+      the council provides them with proper guidance to ensure they take the right path.
+    <br>
+    The members of the council regularly organize workshops, mentoring sessions, and career guidance programs.
+      These activities not only enhance students’ skills and knowledge but also prepare them to face real-life challenges.
+      Students learn about potential careers in various fields such as science, technology, business, social sciences, and arts,
+      and they can plan their paths according to their individual abilities.
+    </p>
+</div>
+{% endblock %}
+</body>
+</html>

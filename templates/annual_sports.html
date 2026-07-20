@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annual Sports</title>
+    <style>
+    * {margin: 0;padding: 0;box-sizing: border-box;font-family: "Poppins", sans-serif;}
+    body {background: #f5f7fa;color: #333;}
+    .hero {position: relative;width: 100%;height: 50vh;overflow: hidden;}
+    .hero-img {width: 100%;height: 100%;object-fit: cover;filter: brightness(60%);position: absolute;top: 0;left: 0;z-index: -1;}
+    .hero-content {position: relative;color: #fff;text-align: center;top: 50%;transform: translateY(-50%);}
+    .hero-content h1 {font-size: 3rem;margin-bottom: 15px;}
+    .hero-content p {font-size: 1.2rem;}
+    .highlights {padding: 50px 20px;text-align: center;}
+    .highlights h2 {margin-bottom: 30px;font-size: 2rem;color: #444;}
+    .cards {display: grid;grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));gap: 20px;}
+    .card {background: #fff;padding: 20px;border-radius: 0px;box-shadow: 0 4px 8px rgba(0,0,0,0.1);transition: transform 0.3s;}
+    .card:hover {transform: translateY(-5px);}
+    .card h3 {margin-bottom: 10px;color: #0073e6;}
+    .countdown {background: #0073e6;color: #fff;text-align: center;padding: 40px 20px;}
+    .countdown h2 {margin-bottom: 15px;}
+    .timer {font-size: 2rem;font-weight: bold;}
+    .gallery {padding: 50px 20px;text-align: center;}
+    .gallery h2 {margin-bottom: 30px;}
+    .gallery-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));gap: 15px;}
+    .gallery-grid img {width: 100%;height: 200px;object-fit: cover;border-radius: 0px;transition: transform 0.3s;}
+    .gallery-grid img:hover {transform: scale(1.05);}
+  </style>
+</head>
+<body>
+{% extends 'header.html' %}
+  {% load static %}
+{% block title %}Home | Blogrator Academy{% endblock %}
+{% block content %}
+<section class="hero">
+  <img src="{% static 'img_38.png' %}" alt="Sports Banner" class="hero-img">
+  <div class="hero-content">
+    <h1>Annual Sports Meet 2025</h1>
+    <p>Join us for an exciting celebration of sports, energy & teamwork!</p>
+  </div>
+</section>
+  <section class="highlights">
+    <h2>Event Highlights</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>🏃 Track & Field</h3>
+        <p>100m, 200m, relay races and more thrilling competitions.</p>
+      </div>
+      <div class="card">
+        <h3>⚽ Football</h3>
+        <p>Inter-house football matches showcasing skills & spirit.</p>
+      </div>
+      <div class="card">
+        <h3>🏸 Badminton</h3>
+        <p>Singles and doubles badminton tournaments.</p>
+      </div>
+      <div class="card">
+        <h3>🎭 Cultural Program</h3>
+        <p>Cheerleading, dance & music to celebrate sportsmanship.</p>
+      </div>
+    </div>
+  </section>
+  <section class="countdown">
+    <h2>Countdown to Sports Day</h2>
+    <div class="timer" id="timer">00d : 00h : 00m : 00s</div>
+  </section>
+  <section class="gallery">
+    <h2>Photo Gallery</h2>
+    <div class="gallery-grid">
+      <img src="{% static 'img_39.png' %}" alt="Sports 1">
+      <img src="{% static 'img_40.png' %}" alt="Sports 2">
+      <img src="{% static 'img_41.png' %}" alt="Sports 3">
+      <img src="{% static 'img_42.png' %}" alt="Sports 4">
+    </div>
+  </section>
+  <script>
+    const targetDate = new Date("2026-02-20T09:00:00").getTime();
+    const timer = document.getElementById("timer");
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      timer.textContent = `${days}d : ${hours}h : ${minutes}m : ${seconds}s`;
+    }, 1000);
+  </script>
+{% endblock %}
+</body>
+</html>

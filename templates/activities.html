@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Activities</title>
+    <style>
+    .card:hover {transform: translateY(-5px);box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);transition: all 0.3s ease;}
+    body {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background-color: #f8f9fa;color: #333;}
+    h2 {color: #0d6efd;}
+    .card-title {color: #0d6efd;}
+</style>
+</head>
+<body>
+{% extends "base.html" %}
+{% block title %}Smart School{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4 fw-bold">📌 {{ student.name }}'s Activities</h2>
+    {% if activities %}
+        <div class="row g-4">
+            {% for act in activities %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm rounded-4 border-0 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold">{{ act.title }}</h5>
+                        <p class="card-text text-muted">{{ act.description }}</p>
+                        <p class="card-text">
+                            <small class="text-secondary">📅 {{ act.date }}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center rounded-4">
+            No activities found.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+</body>
+</html>

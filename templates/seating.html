@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seating</title>
+    <style>
+        body {margin: 0;padding: 0;background: linear-gradient(to right, #eef2f3, #d9e4ec);font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+        h2 {font-weight: bold;color: #333;text-align: center;margin: 30px 0;}
+        .container {max-width: 600px;margin: 50px auto;padding: 0 15px;}
+        .card {border-radius: 2px;background: #fff;border: none;box-shadow: 0 4px 15px rgba(0,0,0,0.15);padding: 25px;transition: transform 0.3s ease, box-shadow 0.3s ease;}
+        .card:hover {transform: translateY(-5px);box-shadow: 0 8px 25px rgba(0,0,0,0.25);}
+        .btn {display: block;width: 100%;border-radius: 10px;font-size: 18px;font-weight: 600;padding: 12px;text-align: center;text-decoration: none;margin-bottom: 15px;transition: all 0.3s ease;}
+        .btn-primary {background: #007bff;color: #fff;}
+        .btn-primary:hover {background: #0056b3;transform: scale(1.05);}
+        .btn-warning {background: #ffc107;color: #333;}
+        .btn-warning:hover {background: #e0a800;color: #fff;transform: scale(1.05);}
+    </style>
+</head>
+<body>
+{% extends "base.html" %}
+{% block title %}School{% endblock %}
+{% block content %}
+<h2>Seating Page</h2>
+<div class="container">
+    <div class="card">
+        <a href="{% url 'edit_profile' student.id %}" class="btn btn-primary">Edit Profile</a>
+        <a href="{% url 'change_password' %}" class="btn btn-warning">Change Password</a>
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>

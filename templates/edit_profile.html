@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .edit-profile-container {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 0px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 800px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            text-align: center;
+            color: #2d6a4f;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="password"],
+        input[type="file"] {
+            padding: 10px 14px;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            outline: none;
+            font-size: 1em;
+            width: 95%;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
+        }
+        .warning-text {
+            color: red;
+            text-align: center;
+            margin-top: -5px;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .btn {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-profile {
+            background-color: #1d3557;
+            color: white;
+        }
+        .btn-profile:hover {
+            background-color: #16324f;
+        }
+        .btn-save {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        .btn-save:hover {
+            background-color: #3d9c41;
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-profile-container">
+        <h2>Edit Profile</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="button-group">
+                <a href="{% url 'profile' %}" class="btn btn-profile">Go to Profile</a>
+                <button type="submit" class="btn btn-save">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

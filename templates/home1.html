@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box;font-family: "Segoe UI", Arial, sans-serif;}
+    body {background: #f5f5f5;padding: 10px;}
+    .card-container {display: flex;gap: 15px;}
+    .card {background: #fff;border-radius: 0px !important;padding: 25px 20px !important;display: flex;justify-content: space-between;align-items: center;box-shadow: 0 3px 8px rgba(0,0,0,0.1);font-size: 16px;cursor: pointer;transition: 0.3s;flex: 1;}
+    .card:hover {transform: translateY(-2px);}
+    .card span {font-weight: bold;}
+    .greeting-card {font-size: 24px;font-weight: bold;margin-bottom: 20px;padding: 10px 15px;background: #b3d0f5;color: #0b3d91;}
+    .greeting-card span {margin-left: 10px;}
+    .card ul li:hover {background: #e3f2fd;transform: translateX(5px);}
+    .card::-webkit-scrollbar {width: 6px;}
+    .card::-webkit-scrollbar-thumb {background-color: #2196f3;border-radius: 0px;}
+    .card::-webkit-scrollbar-track {background: #f1f1f1;border-radius: 0px;}
+    .welcome-section {position: relative;text-align: center;margin: 30px 0;}
+    .welcome-section img {width: 95%;height: 400px;border-radius: 0px;box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
+    .welcome-section h2 {position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);color: #fff;font-size: 48px;font-weight: bold;background: rgba(0, 0, 0, 0.4);padding: 15px 30px;border-radius: 10px;
+    }
+</style>
+</head>
+<body>
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Smart School{% endblock %}
+{% block content %}
+  <div class="greeting-card">
+    👋 <span>Hello, {{ student_name }}</span>
+  </div>
+<div class="welcome-section">
+    <img src="{% static 'img_11.png' %}" alt="School Logo">
+    <h2>Welcome to Blogrator Academy</h2>
+</div>
+{% if not student.is_teacher and not student.is_librarian %}
+<div class="card-container">
+  <div class="card">📌 Attendance (This Month) <span>{{ attendance_percent }}%</span></div>
+  <div class="card">📚 Homework (Incomplete) <span>{{ incomplete_homework }}</span></div>
+  <div class="card">📝 Pending Homework (Today) <span>{{ pending_tasks }}</span></div>
+</div>
+{% endif %}
+<div class="card" style="margin-top: 40px;flex-direction: column; align-items: flex-start; cursor: default; padding: 20px; background: #b3d0f5; border-radius: 0px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-height: 300px; overflow-y: auto;">
+  <h3 style="margin-bottom: 15px; color: #0b3d91; font-size: 20px; border-bottom: 2px solid #e3f2fd; padding-bottom: 5px;">📢 Latest Notices</h3>
+  {% if notices %}
+      <ul style="width: 100%; list-style-type: none; padding-left: 0; margin: 0;">
+          {% for notice in notices %}
+              <li style="padding: 10px; margin-bottom: 8px; border-radius: 8px; transition: 0.3s; background: #f9f9f9;">
+                  <span style="font-weight: bold; color: #0b3d91;">{{ notice.date }}</span> –
+                  {% if notice.file %}
+                      <a href="{{ notice.file.url }}" target="_blank" style="color: #333; text-decoration: none; font-weight: bold;">
+                          {{ notice.notice_subject }}
+                      </a>
+                  {% else %}
+                      <span style="color: #333;">{{ notice.notice_subject }}</span>
+                  {% endif %}
+              </li>
+          {% endfor %}
+      </ul>
+  {% else %}
+      <p style="color: #555;">No notices available.</p>
+  {% endif %}
+</div>
+<div class="card" style="margin-top: 60px;flex-direction: column; align-items: flex-start; cursor: default;">
+  <h3 style="margin-bottom: 10px; color: #0b3d91;">🏫 School Rules & Regulations</h3>
+  <ul style="margin-left: 20px; line-height: 1.8; font-size: 15px; color: #black;">
+    <li>All students must wear the complete and proper school uniform every day, ensuring neatness and discipline.</li>
+    <li>Attendance is mandatory for every student, and a minimum of 75% attendance is required to appear in final exams.</li>
+    <li>Use of mobile phones and electronic gadgets is strictly prohibited inside classrooms and examination halls at all times.</li>
+    <li>Students are expected to respect teachers, staff, and fellow classmates, maintaining a positive and friendly environment.</li>
+    <li>Library books should be returned within seven days, and fines will be charged for damaged or late-returned books.</li>
+    <li>Proper discipline and good behavior must be maintained inside the school premises, during assemblies, and in playground areas.</li>
+    <li>Students must complete and submit their homework, classwork, and assignments on time, without unnecessary excuses or delays.</li>
+    <li>Any kind of bullying, teasing, or misconduct towards other students will lead to strict disciplinary action by the school.</li>
+    <li>School property, including furniture, laboratories, and digital equipment, should be handled with utmost care and responsibility.</li>
+    <li>Participation in co-curricular and extracurricular activities is encouraged to ensure overall growth and development of students.</li>
+  </ul>
+</div>
+<h2 style="margin-top: 55px;margin-bottom: 15px; color: #black; font-size: 24px;">🛠 Problem Report / Contact</h2>
+<div class="card-container" style="margin-top: 20px;">
+    <div class="card" style="background: #b3d0f5; color:#0b3d91;">📞 Phone: <span>+91 9876543210</span></div>
+    <div class="card" style="background: #b3d0f5; color:#0b3d91;">✉️ Email: <span>blogrator@gmail.com</span></div>
+    <div class="card" style="background: #b3d0f5; color:#0b3d91;">📱 WhatsApp: <span>+91 9876543210</span></div>
+</div>
+  <script>
+  </script>
+{% endblock %}
+</body>
+</html>
