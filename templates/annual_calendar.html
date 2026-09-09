@@ -1,143 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Annual Calendar</title>
-  <style>
-    body {font-family: Arial, sans-serif;}
-    .calendar-container {display: flex;gap: 60px;margin-left: 160px;margin-top: 20px;margin-bottom: 30px;flex-wrap: wrap;}
-    .calendar {display: grid;grid-template-columns: repeat(7, 1fr);gap: 8px;max-width: 700px;flex: 2;}
-    .calendar div {padding: 20px;min-height: 70px;text-align: center;border: 1px solid #ddd;cursor: pointer;font-size: 16px;}
-    .calendar .header {font-weight: bold;background-color: #f0f0f0;font-size: 18px;}
-    .calendar .today { background-color: #87CEFA; }
-    .calendar .event-day { background-color: #FFD700; }
-    .events-summary {flex: 1;max-width: 450px;font-size: 16px;padding: 10px;}
-    .events-summary h4 {margin: 15px 0 10px 0;border-bottom: 2px solid #ddd;padding-bottom: 5px;}
-    .events-summary p {padding: 8px;border-bottom: 1px solid #ccc;cursor: pointer;margin: 0;}
-    .events-summary p:hover { background-color: #f9f9f9; }
-    .modal {display: none;position: fixed;top: 0; left: 0;width: 100%; height: 100%;background: rgba(0,0,0,0.5);justify-content: center;align-items: center;}
-    .modal-content {background: white;padding: 25px;border-radius: 5px;max-width: 600px;font-size: 16px;}
-    @media (max-width: 768px) {
-      .calendar-container {flex-direction: column;}
-      .calendar, .events-summary {max-width: 100%;}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annual Calendar | Blogrator Academy</title>
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;font-family: Arial, sans-serif;}
+        body {background: #f4f7fb;color: #222;}
+        .calendar-page {width: 95%;max-width: 1400px;margin: 35px auto 50px;}
+        .page-title {text-align: center;margin-bottom: 25px;}
+        .page-title h1 {color: #4169e1;font-size: 32px;margin-bottom: 8px;}
+        .page-title p {color: #666;font-size: 15px;}
+        .calendar-container {display: grid;grid-template-columns: 2fr 1fr;gap: 25px;align-items: start;}
+        .calendar-card {background: white;border-radius: 15px;padding: 22px;box-shadow: 0 8px 25px rgba(0,0,0,0.08);}
+        .calendar-top {display: flex;justify-content: space-between;align-items: center;margin-bottom: 20px;gap: 10px;}
+        .calendar-top h2 {color: #1a2a43;font-size: 24px;text-align: center;}
+        .calendar-btn {border: none;background: #4169e1;color: white;padding: 9px 15px;border-radius: 8px;cursor: pointer;font-size: 14px;transition: 0.3s;}
+        .calendar-btn:hover {background: #2747b8;transform: translateY(-2px);}
+        .calendar {display: grid;grid-template-columns: repeat(7, 1fr);gap: 6px;}
+        .calendar div {min-height: 70px;border: 1px solid #e2e6ef;border-radius: 8px;padding: 10px;text-align: center;background: #fff;cursor: pointer;transition: 0.2s;}
+        .calendar div:hover {background: #f1f5ff;transform: scale(1.02);}
+        .calendar .header {min-height: auto;padding: 10px 5px;background: #4169e1;color: white;border: none;font-weight: bold;cursor: default;}
+        .calendar .header:hover {transform: none;background: #4169e1;}
+        .empty-day {background: #fafafa !important;cursor: default !important;}
+        .empty-day:hover {transform: none !important;}
+        .today {background: #87cefa !important;border: 2px solid #168acb !important;font-weight: bold;color: #003b5c;}
+        .holiday-day {background: #ffe4e4 !important;border: 2px solid #ff6b6b !important;color: #b30000;font-weight: bold;}
+        .event-day {background: #fff0a8 !important;border: 2px solid #e5b900 !important;color: #765800;font-weight: bold;}
+        .today.event-day {background: #9ff0bd !important;border: 2px solid #159447 !important;}
+        .events-summary {background: white;border-radius: 15px;padding: 22px;box-shadow: 0 8px 25px rgba(0,0,0,0.08);}
+        .events-summary h3 {color: #4169e1;margin-bottom: 15px;padding-bottom: 10px;border-bottom: 2px solid #4169e1;}
+        .event {padding: 12px;margin-bottom: 8px;background: #f7f9ff;border-left: 4px solid #4169e1;border-radius: 6px;cursor: pointer;font-size: 14px;transition: 0.2s;}
+        .event:hover {background: #eaf0ff;transform: translateX(3px);}
+        .holiday-item {border-left-color: #ff4d4d;}
+        .legend {display: flex;flex-wrap: wrap;gap: 15px;margin-top: 20px;padding-top: 15px;border-top: 1px solid #ddd;}
+        .legend-item {display: flex;align-items: center;gap: 6px;font-size: 13px;color: #555;}
+        .legend-box {width: 16px;height: 16px;border-radius: 4px;}
+        .legend-today {background: #87cefa;}
+        .legend-holiday {background: #ffe4e4;border: 1px solid #ff6b6b;}
+        .legend-event {background: #fff0a8;border: 1px solid #e5b900;}
+        .modal {display: none;position: fixed;z-index: 9999;left: 0;top: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.55);justify-content: center;align-items: center;padding: 20px;}
+        .modal-content {background: white;width: 100%;max-width: 500px;border-radius: 15px;padding: 25px;position: relative;box-shadow: 0 15px 40px rgba(0,0,0,0.2);animation: popup 0.25s ease;}
+        @keyframes popup {
+            from {transform: scale(0.8);opacity: 0;}
+            to {transform: scale(1);opacity: 1;}
+}
+        .modal-content h3 {color: #4169e1;margin-bottom: 12px;}
+        .modal-content p {line-height: 1.6;color: #555;}
+        .close {position: absolute;right: 18px;top: 10px;font-size: 30px;cursor: pointer;color: #777;}
+        .close:hover {color: red;}
+        @media (max-width: 768px) {
+            .calendar-page {width: 96%;margin-top: 20px;}
+            .page-title h1 {font-size: 25px;}
+            .page-title p {font-size: 12px;}
+            .calendar-container {grid-template-columns: 1fr;gap: 15px;}
+            .calendar-card {padding: 10px;}
+            .calendar-top {margin-bottom: 12px;}
+            .calendar-top h2 {font-size: 17px;}
+            .calendar-btn {padding: 7px 9px;font-size: 11px;}
+            .calendar {gap: 3px;}
+            .calendar div {min-height: 43px;padding: 5px 2px;font-size: 11px;border-radius: 5px;}
+            .calendar .header {min-height: 30px;padding: 7px 2px;font-size: 10px;}
+            .events-summary {padding: 15px;}
+            .events-summary h3 {font-size: 18px;}
+            .event {font-size: 12px;padding: 9px;}
+            .legend {gap: 8px;}
+            .legend-item {font-size: 11px;}
+        }
+        @media (max-width: 480px) {
+            .page-title h1 {font-size: 22px;}
+            .calendar-top h2 {font-size: 15px;}
+            .calendar-btn {padding: 6px 7px;font-size: 10px;}
+            .calendar div {min-height: 38px;font-size: 10px;}
+            .calendar .header {font-size: 9px;}
+        }
+
+    </style>
 </head>
 <body>
 {% extends 'header.html' %}
-{% block title %}Annual Calendar | Blogrator Academy{% endblock %}
+{% block title %}
+Annual Calendar | Blogrator Academy
+{% endblock %}
 {% block content %}
-<h1 align="center" style="margin-top: 40px">Annual Calendar</h1>
-<div class="calendar-container">
-  <div>
-    <div style="display: flex; justify-content: space-between; align-items:center; margin-bottom:10px;">
-      <button id="prevMonth">⏮ Prev</button>
-      <h3 id="monthYear"></h3>
-      <button id="nextMonth">Next ⏭</button>
+<div class="calendar-page">
+    <div class="page-title">
+        <h1>📅 Annual Calendar</h1>
+        <p>
+            Blogrator Academy — Academic Calendar
+        </p>
     </div>
-    <div id="calendar" class="calendar"></div>
-  </div>
-  <div class="events-summary">
-    <h4>Vacations</h4>
-    {% for event in vacations %}
-      <p class="event" data-description="{{ event.description }}">
-        {{ event.start_date|date:"m/d" }} - {{ event.description|truncatechars:30 }}
-      </p>
-    {% empty %}
-      <p>No vacations</p>
-    {% endfor %}
-    <h4>Activities</h4>
-    {% for event in activities %}
-      <p class="event" data-description="{{ event.description }}">
-        {{ event.start_date|date:"m/d" }} - {{ event.description|truncatechars:30 }}
-      </p>
-    {% empty %}
-      <p>No activities</p>
-    {% endfor %}
-  </div>
+    <div class="calendar-container">
+        <div class="calendar-card">
+            <div class="calendar-top">
+                <button class="calendar-btn" id="prevMonth">
+                    ⏮ Prev
+                </button>
+                <h2 id="monthYear"></h2>
+                <button class="calendar-btn" id="nextMonth">
+                    Next ⏭
+                </button>
+            </div>
+            <div id="calendar" class="calendar"></div>
+            <div class="legend">
+                <div class="legend-item">
+                    <span class="legend-box legend-today"></span>
+                    Today
+                </div>
+                <div class="legend-item">
+                    <span class="legend-box legend-holiday"></span>
+                    Indian Holiday
+                </div>
+                <div class="legend-item">
+                    <span class="legend-box legend-event"></span>
+                    School Event
+                </div>
+            </div>
+        </div>
+        <div class="events-summary">
+            <h3>🇮🇳 Indian Holidays</h3>
+            <div id="holidayList"></div>
+            <h3>🏖️ Vacations</h3>
+            {% for event in vacations %}
+                <p class="event" data-description="{{ event.description }}">
+                    📅 {{ event.start_date|date:"d M Y" }}
+                    <br>
+                    {{ event.description|truncatechars:50 }}
+                </p>
+            {% empty %}
+                <p class="event">
+                    No vacations available.
+                </p>
+            {% endfor %}
+            <h3>🎓 Activities</h3>
+            {% for event in activities %}
+                <p class="event" data-description="{{ event.description }}">
+                    📅 {{ event.start_date|date:"d M Y" }}
+                    <br>
+                    {{ event.description|truncatechars:50 }}
+                </p>
+            {% empty %}
+                <p class="event">
+                    No activities available.
+                </p>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 <div id="modal" class="modal">
-  <div class="modal-content">
-    <span id="close" style="float:right;cursor:pointer;">&times;</span>
-    <p id="modal-text"></p>
-  </div>
+    <div class="modal-content">
+        <span class="close" id="close">&times;</span>
+        <h3>Event Details</h3>
+        <p id="modal-text"></p>
+    </div>
 </div>
 <script>
-  const events = [
+const events = [
     {% for event in vacations %}
-    { date: new Date("{{ event.start_date }}"), description: "{{ event.description }}" },
+    {
+        date: new Date("{{ event.start_date|date:'Y-m-d' }}"),
+        description: "{{ event.description|escapejs }}",
+        type: "vacation"
+    },
     {% endfor %}
     {% for event in activities %}
-    { date: new Date("{{ event.start_date }}"), description: "{{ event.description }}" },
+    {
+        date: new Date("{{ event.start_date|date:'Y-m-d' }}"),
+        description: "{{ event.description|escapejs }}",
+        type: "activity"
+    },
     {% endfor %}
-  ];
-  const calendarEl = document.getElementById('calendar');
-  const monthYearEl = document.getElementById('monthYear');
-  let today = new Date();
-  let currentMonth = today.getMonth();
-  let currentYear = today.getFullYear();
-  function renderCalendar(month, year) {
-    calendarEl.innerHTML = "";
-    const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-    days.forEach(d => {
-      const div = document.createElement('div');
-      div.classList.add('header');
-      div.textContent = d;
-      calendarEl.appendChild(div);
-    });
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    monthYearEl.textContent = new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' });
-    for(let i=0; i<firstDay; i++){
-      const div = document.createElement('div');
-      calendarEl.appendChild(div);
-    }
-    for(let d=1; d<=daysInMonth; d++){
-      const div = document.createElement('div');
-      div.textContent = d;
-
-      const dateObj = new Date(year, month, d);
-      if(dateObj.toDateString() === today.toDateString()){
-        div.classList.add('today');
-      }
-      events.forEach(ev => {
-        const evDate = new Date(ev.date);
-        if(evDate.toDateString() === dateObj.toDateString()){
-          div.classList.add('event-day');
+];
+function getIndianHolidays(year) {
+    return [
+        {
+            date: new Date(year, 0, 26),
+            name: "Republic Day 🇮🇳"
+        },
+        {
+            date: new Date(year, 4, 1),
+            name: "May Day"
+        },
+        {
+            date: new Date(year, 7, 15),
+            name: "Independence Day 🇮🇳"
+        },
+        {
+            date: new Date(year, 9, 2),
+            name: "Gandhi Jayanti 🇮🇳"
+        },
+        {
+            date: new Date(year, 10, 14),
+            name: "Children's Day"
+        },
+        {
+            date: new Date(year, 10, 26),
+            name: "Constitution Day 🇮🇳"
         }
-      });
-      calendarEl.appendChild(div);
-    }
-  }
-  document.getElementById('prevMonth').addEventListener('click', () => {
-    currentMonth--;
-    if(currentMonth < 0){
-      currentMonth = 11;
-      currentYear--;
-    }
-    renderCalendar(currentMonth, currentYear);
-  });
-  document.getElementById('nextMonth').addEventListener('click', () => {
-    currentMonth++;
-    if(currentMonth > 11){
-      currentMonth = 0;
-      currentYear++;
-    }
-    renderCalendar(currentMonth, currentYear);
-  });
-  renderCalendar(currentMonth, currentYear);
-  const modal = document.getElementById('modal');
-  const modalText = document.getElementById('modal-text');
-  const close = document.getElementById('close');
-  document.querySelectorAll('.event').forEach(p => {
-    p.addEventListener('click', () => {
-      modalText.textContent = p.dataset.description;
-      modal.style.display = 'flex';
+    ];
+}
+const calendarEl =
+    document.getElementById("calendar");
+const monthYearEl =
+    document.getElementById("monthYear");
+let today = new Date();
+let currentMonth = today.getMonth();
+let currentYear = today.getFullYear();
+function renderCalendar(month, year) {
+    calendarEl.innerHTML = "";
+    const days = [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+    ];
+    days.forEach(day => {
+        const div =
+            document.createElement("div");
+        div.classList.add("header");
+        div.textContent = day;
+        calendarEl.appendChild(div);
     });
-  });
-  close.onclick = () => { modal.style.display = 'none'; }
-  window.onclick = (e) => { if(e.target==modal) modal.style.display='none'; }
+    const firstDay =
+        new Date(year, month, 1).getDay();
+    const daysInMonth =
+        new Date(year, month + 1, 0).getDate();
+    monthYearEl.textContent =
+        new Date(year, month).toLocaleString(
+            "en-IN",
+            {
+                month: "long",
+                year: "numeric"
+            }
+        );
+    for (let i = 0; i < firstDay; i++) {
+        const div =
+            document.createElement("div");
+        div.classList.add("empty-day");
+        calendarEl.appendChild(div);
+    }
+    const holidays =
+        getIndianHolidays(year);
+    for (let d = 1; d <= daysInMonth; d++) {
+        const div =
+            document.createElement("div");
+        div.textContent = d;
+        const dateObj =
+            new Date(year, month, d);
+        if (
+            dateObj.toDateString()
+            === today.toDateString()
+        ) {
+            div.classList.add("today");
+        }
+        holidays.forEach(holiday => {
+            if (
+                holiday.date.toDateString()
+                === dateObj.toDateString()
+            ) {
+                div.classList.add("holiday-day");
+                div.title = holiday.name;
+            }
+        });
+        events.forEach(event => {
+            const eventDate =
+                new Date(event.date);
+            if (
+                eventDate.toDateString()
+                === dateObj.toDateString()
+            ) {
+                div.classList.add("event-day");
+                div.title =
+                    event.description;
+            }
+        });
+        calendarEl.appendChild(div);
+    }
+}
+function renderHolidayList(year) {
+    const holidayList =
+        document.getElementById("holidayList");
+    holidayList.innerHTML = "";
+    const holidays =
+        getIndianHolidays(year);
+    holidays.forEach(holiday => {
+        const p =
+            document.createElement("p");
+        p.className =
+            "event holiday-item";
+        const date =
+            holiday.date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short"
+                }
+            );
+        p.textContent =
+            "📅 " + date + " - " + holiday.name;
+        holidayList.appendChild(p);
+    });
+}
+document
+    .getElementById("prevMonth")
+    .addEventListener("click", () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        renderCalendar(
+            currentMonth,
+            currentYear
+        );
+        renderHolidayList(currentYear);
+    });
+document
+    .getElementById("nextMonth")
+    .addEventListener("click", () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        renderCalendar(
+            currentMonth,
+            currentYear
+        );
+        renderHolidayList(currentYear);
+    });
+renderCalendar(
+    currentMonth,
+    currentYear
+);
+renderHolidayList(currentYear);
+const modal =
+    document.getElementById("modal");
+const modalText =
+    document.getElementById("modal-text");
+const close =
+    document.getElementById("close");
+document
+    .querySelectorAll(".event")
+    .forEach(event => {
+        event.addEventListener("click", () => {
+            modalText.textContent =
+                event.dataset.description
+                || event.textContent;
+            modal.style.display = "flex";
+        });
+    });
+close.onclick = () => {modal.style.display = "none";};
+window.onclick = (e) => {if (e.target === modal) {modal.style.display = "none";}};
 </script>
 {% endblock %}
 </body>
